@@ -2,15 +2,31 @@ import React from "react";
 import { useState } from "react";
 
 export const AddRecipe = () => {
-  const [inputList, setInputList] = useState([""]);
+  const createEmptyIngredient = () => ({
+    ingredient_name: "",
+    unit: "",
+    quantity: "",
+  });
+
+  const [inputList, setInputList] = useState([createEmptyIngredient()]);
 
   const handleInputChange = (e, index) => {
     const newList = [...inputList];
-    newList[index] = e.target.value;
+    newList[index].ingredient_name = e.target.value;
+    setInputList(newList);
+  };
+  const handleInputChangeQuantity = (e, index) => {
+    const newList = [...inputList];
+    newList[index].quantity = e.target.value;
+    setInputList(newList);
+  };
+  const handleInputChangeUnit = (e, index) => {
+    const newList = [...inputList];
+    newList[index].unit = e.target.value;
     setInputList(newList);
   };
   const handleAddField = () => {
-    setInputList([...inputList, ""]);
+    setInputList([...inputList, createEmptyIngredient()]);
   };
   const handleRemoveField = (index) => {
     if (inputList.length > 1) {
@@ -19,6 +35,8 @@ export const AddRecipe = () => {
       setInputList(newList);
     }
   };
+  console.log(inputList);
+
   return (
     <div className="forms-wrapper-container">
       <div className="form-container">
@@ -26,46 +44,50 @@ export const AddRecipe = () => {
           <div className="dynamic-inputstitle-div">
             <p className="menge-title">Menge</p>
             <p>Einheit</p>
-            <p>Zutatenname </p>
+            <p>Zutatenname</p>
           </div>
-          {inputList.map((value, index) => (
+          {inputList.map((ingredient, index) => (
             <div key={index} className="dynamic-inputs-div">
               <input
                 type="number"
-                value={value}
+                value={ingredient.quantity}
                 min={1}
-                onChange={(e) => handleInputChange(e, index)}
+                name="quantity"
+                id="quantity"
+                onChange={(e) => handleInputChangeQuantity(e, index)}
               />
               <select
-                name="unity"
-                id="unity"
-                onChange={(e) => handleInputChange(e, index)}
-                value={value}
+                name="unit"
+                id="unit"
+                onChange={(e) => handleInputChangeUnit(e, index)}
+                value={ingredient.unit}
                 className="unity-select"
               >
-                <option value="test">Becher</option>
-                <option value="test">Beet/e</option>
-                <option value="test">Beutel</option>
-                <option value="test">Blatt</option>
-                <option value="test">Blätter</option>
-                <option value="test">Bund</option>
-                <option value="test">Bündel</option>
-                <option value="test">cl</option>
-                <option value="test">cm</option>
-                <option value="test">dicke</option>
-                <option value="test">dl</option>
-                <option value="test">Dose</option>
-                <option value="test">dünne</option>
-                <option value="test">Ecke(n)</option>
-                <option value="test">Eimer</option>
-                <option value="test">einige</option>
-                <option value="test">einige Stiele</option>
+                <option value="Becher">Becher</option>
+                <option value="Beet/e">Beet/e</option>
+                <option value="Beutel">Beutel</option>
+                <option value="Blatt">Blatt</option>
+                <option value="Blätter">Blätter</option>
+                <option value="Bund">Bund</option>
+                <option value="Bündel">Bündel</option>
+                <option value="cl">cl</option>
+                <option value="cm">cm</option>
+                <option value="dicke">dicke</option>
+                <option value="dl">dl</option>
+                <option value="Dose">Dose</option>
+                <option value="dünne">dünne</option>
+                <option value="Ecke(n)">Ecke(n)</option>
+                <option value="Eimer">Eimer</option>
+                <option value="einige">einige</option>
+                <option value="einige Stiele">einige Stiele</option>
               </select>
               <input
                 type="text"
-                value={value}
+                value={ingredient.ingredient_name}
                 onChange={(e) => handleInputChange(e, index)}
                 placeholder="Zutatenname"
+                name="ingredient_name"
+                id="ingredient_name"
               />
               <button
                 className="remove-inputs-btn"
