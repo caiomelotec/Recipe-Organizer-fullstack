@@ -35,6 +35,25 @@ app.post("/addrecipe", (req, res) => {
 
     //Get the ID of the inserted recipe
     const recipeId = recipeResult.insertId;
+
+    //second, insert the ingredients data
+    const ingredientQuery =
+      "INSERT INTO recipes.ingredients (quantity, unit, ingredient_name, recipe_id) VALUES ?";
+    const ingredientValues = ingredients.map((ingredient) => {
+      ingredient.quantity,
+        ingredient.unit,
+        ingredient.ingredient_name,
+        recipeId;
+    });
+
+    db.query(ingredientQuery, [ingredientValues], (err, ingredientResult) => {
+      if (err) {
+        consol.error(err);
+        return res.status(500).send("Error adding ingredients");
+      }
+
+      return res.send("Recipe and ingredients added successfully");
+    });
   });
 });
 
