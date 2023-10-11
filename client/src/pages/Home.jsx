@@ -18,7 +18,7 @@ export const Home = () => {
     };
     fetchRecipes();
   }, []);
-  console.log(recipes);
+  // console.log(recipes);
   return (
     <div className="recipes-wrapper-container">
       <div className="recipes-container">
@@ -28,7 +28,9 @@ export const Home = () => {
             <h4>{recipe.recipe_name}</h4>
             <div className="deatils-div">
               <button className="details-btn">
-                <Link id="link-details">Mehr Sehen</Link>
+                <Link id="link-details" to={`/recipes/${recipe.recipe_id}`}>
+                  Mehr Sehen
+                </Link>
               </button>
             </div>
           </div>
