@@ -19,6 +19,25 @@ app.get("/", (req, res) => {
 
 app.use(cors());
 
+app.post("/addrecipe", (req, res) => {
+  const recipe = req.body.recipe; // Extract the recipe data from the request body
+  const ingredients = req.body.inputList; // Extract the ingredients data from the request body
+
+  //first, insert the recipe
+  const recipeQuery = "INSERT INTO recipes (recipe_name) VALUES (?)";
+  const recipeValues = [recipe.recipe_name];
+
+  db.query(recipeQuery, recipeValues, (err, recipeResult) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send("Error adding recipe");
+    }
+
+    //Get the ID of the inserted recipe
+    const recipeId = recipeResult.insertId;
+  });
+});
+
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
