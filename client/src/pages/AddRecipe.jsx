@@ -43,11 +43,23 @@ export const AddRecipe = () => {
                 value={value}
                 className="unity-select"
               >
-                <option value="test">test</option>
-                <option value="test">test</option>
-                <option value="test">test</option>
-                <option value="test">test</option>
-                <option value="test">test</option>
+                <option value="test">Becher</option>
+                <option value="test">Beet/e</option>
+                <option value="test">Beutel</option>
+                <option value="test">Blatt</option>
+                <option value="test">Blätter</option>
+                <option value="test">Bund</option>
+                <option value="test">Bündel</option>
+                <option value="test">cl</option>
+                <option value="test">cm</option>
+                <option value="test">dicke</option>
+                <option value="test">dl</option>
+                <option value="test">Dose</option>
+                <option value="test">dünne</option>
+                <option value="test">Ecke(n)</option>
+                <option value="test">Eimer</option>
+                <option value="test">einige</option>
+                <option value="test">einige Stiele</option>
               </select>
               <input
                 type="text"
