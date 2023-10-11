@@ -20,24 +20,28 @@ export const AddRecipe = () => {
     }
   };
   return (
-    <div>
-      <div>
+    <div className="forms-wrapper-container">
+      <div className="form-container">
         <form>
+          <div className="dynamic-inputstitle-div">
+            <p className="menge-title">Menge</p>
+            <p>Einheit</p>
+            <p>Zutatenname </p>
+          </div>
           {inputList.map((value, index) => (
-            <div key={index}>
-              <label htmlFor="menge">Menge</label>
+            <div key={index} className="dynamic-inputs-div">
               <input
                 type="number"
                 value={value}
                 min={1}
                 onChange={(e) => handleInputChange(e, index)}
               />
-              <label htmlFor="Einheit">Einheit</label>
               <select
                 name="unity"
                 id="unity"
                 onChange={(e) => handleInputChange(e, index)}
                 value={value}
+                className="unity-select"
               >
                 <option value="test">test</option>
                 <option value="test">test</option>
@@ -45,18 +49,24 @@ export const AddRecipe = () => {
                 <option value="test">test</option>
                 <option value="test">test</option>
               </select>
-              <label htmlFor="ingredient_name">Zutatenname</label>
               <input
                 type="text"
                 value={value}
                 onChange={(e) => handleInputChange(e, index)}
                 placeholder="Zutatenname"
               />
-              <button onClick={() => handleRemoveField(index)}>Remove</button>
+              <button
+                className="remove-inputs-btn"
+                onClick={() => handleRemoveField(index)}
+              >
+                Löschen
+              </button>
             </div>
           ))}
         </form>
-        <button onClick={handleAddField}>Weitere Zutaten hinzufügen</button>
+        <button className="add-inputs-btn" onClick={handleAddField}>
+          Weitere Zutaten hinzufügen
+        </button>
       </div>
     </div>
   );
