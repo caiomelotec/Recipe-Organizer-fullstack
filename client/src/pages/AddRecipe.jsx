@@ -11,7 +11,7 @@ export const AddRecipe = () => {
   });
 
   const [inputList, setInputList] = useState([createEmptyIngredient()]);
-  const [recipe, setRecipe] = useState({ recipe_name: "" });
+  const [recipe, setRecipe] = useState({ recipe_name: "", imgUrl: "" });
 
   const handleInputChange = (e) => {
     setRecipe((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -70,6 +70,13 @@ export const AddRecipe = () => {
             id="recipe_name"
             onChange={handleInputChange}
           />
+          <label>Imag URL</label>
+          <input
+            type="text"
+            name="imgUrl"
+            id="imgUrl"
+            onChange={handleInputChange}
+          />
           <div className="dynamic-inputstitle-div">
             <p className="menge-title">Menge</p>
             <p>Einheit</p>
@@ -111,6 +118,10 @@ export const AddRecipe = () => {
                 <option value="einige">einige</option>
                 <option value="einige Stiele">einige Stiele</option>
                 <option value="g">g</option>
+                <option value="große">große</option>
+                <option value="ml">ml</option>
+                <option value="EL">EL</option>
+                <option value="Stück(e)">Stück(e)</option>
               </select>
               <input
                 type="text"
