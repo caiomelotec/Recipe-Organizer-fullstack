@@ -39,16 +39,16 @@ app.post("/addrecipe", (req, res) => {
     //second, insert the ingredients data
     const ingredientQuery =
       "INSERT INTO recipes.ingredients (quantity, unit, ingredient_name, recipe_id) VALUES ?";
-    const ingredientValues = ingredients.map((ingredient) => {
+    const ingredientValues = ingredients.map((ingredient) => [
       ingredient.quantity,
-        ingredient.unit,
-        ingredient.ingredient_name,
-        recipeId;
-    });
+      ingredient.unit,
+      ingredient.ingredient_name,
+      recipeId,
+    ]);
 
     db.query(ingredientQuery, [ingredientValues], (err, ingredientResult) => {
       if (err) {
-        consol.error(err);
+        console.error(err);
         return res.status(500).send("Error adding ingredients");
       }
 
