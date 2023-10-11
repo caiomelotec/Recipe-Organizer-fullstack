@@ -1,5 +1,6 @@
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
+import { AddRecipe } from "./pages/AddRecipe.jsx";
 
 function App() {
   return (
