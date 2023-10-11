@@ -60,6 +60,7 @@ export const AddRecipe = () => {
   return (
     <div className="forms-wrapper-container">
       <div className="form-container">
+        <div className="background-div"></div>
         <form>
           <label>Rezeptname</label>
           <input
