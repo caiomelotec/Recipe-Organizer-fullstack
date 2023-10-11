@@ -1,6 +1,8 @@
 import React from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import "../styles/Home.css";
+import { Link } from "react-router-dom";
 
 export const Home = () => {
   const [recipes, setRecipes] = useState([]);
@@ -21,8 +23,14 @@ export const Home = () => {
     <div className="recipes-wrapper-container">
       <div className="recipes-container">
         {recipes.map((recipe) => (
-          <div key={recipe.id}>
-            <h1>{recipe.recipe_name}</h1>
+          <div key={recipe.recipe_id} className="recipe-item-div">
+            <img className="recipe-img" src={recipe.imgUrl} alt="" />
+            <h4>{recipe.recipe_name}</h4>
+            <div className="deatils-div">
+              <button className="details-btn">
+                <Link id="link-details">Mehr Sehen</Link>
+              </button>
+            </div>
           </div>
         ))}
       </div>
