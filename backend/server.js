@@ -19,6 +19,19 @@ app.get("/", (req, res) => {
 
 app.use(cors());
 
+app.get("/recipes", (req, res) => {
+  //retriving the recipes data from the database
+  const query = "SELECT * From recipes";
+
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send("Error getting recipes");
+    }
+    res.send(results);
+  });
+});
+
 app.post("/addrecipe", (req, res) => {
   const recipe = req.body.recipe; // Extract the recipe data from the request body
   const ingredients = req.body.inputList; // Extract the ingredients data from the request body
