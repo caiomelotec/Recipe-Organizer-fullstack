@@ -32,6 +32,21 @@ app.get("/recipes", (req, res) => {
   });
 });
 
+app.get("/recipes/:id/ingredients", (req, res) => {
+  //retriving the ingredients data from the database
+  const recipeId = req.params.id;
+  const query = "SELECT * From recipes.ingredients WHERE recipe_id = ?";
+
+  db.query(query, [recipeId], (err, ingredients) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send("Error retrieving ingredients data");
+    }
+
+    return res.send(ingredients);
+  });
+});
+
 app.post("/addrecipe", (req, res) => {
   const recipe = req.body.recipe; // Extract the recipe data from the request body
   const ingredients = req.body.inputList; // Extract the ingredients data from the request body
