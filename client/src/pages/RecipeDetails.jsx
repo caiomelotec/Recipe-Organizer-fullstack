@@ -2,6 +2,7 @@ import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import "../styles/RecipeDetails.css";
 
 export const RecipeDetails = () => {
   const location = useLocation();
@@ -50,18 +51,22 @@ export const RecipeDetails = () => {
       <div>
         <h1>{recipe.recipe_name}</h1>
         <img src={recipe.imgUrl} alt="" />
-        {ingredients.map((ingredient) => (
-          <div
-            className="ingredients-div-container"
-            key={ingredient.ingredient_id}
-          >
-            <div className="ingredient-item-div">
-              <p>{ingredient.quantity}</p>
-              <p>{ingredient.unit}</p>
-              <p>{ingredient.ingredient_name}</p>
+        <div className="ingredients-wrapper-div">
+          {ingredients.map((ingredient) => (
+            <div
+              className="ingredients-div-container"
+              key={ingredient.ingredient_id}
+            >
+              <div className="ingredient-item-div">
+                <p>{ingredient.quantity}</p>
+                <p>{ingredient.unit}</p>
+                <p className="p-ingredient-name">
+                  {ingredient.ingredient_name}
+                </p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );

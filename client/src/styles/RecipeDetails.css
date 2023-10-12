@@ -1,0 +1,27 @@
+.ingredients-wrapper-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.ingredients-div-container {
+  display: flex;
+  justify-content: center;
+  width: 50%;
+}
+
+.ingredient-item-div {
+  /* width: 70%; */
+  min-width: 50%;
+  display: grid;
+  gap: 0.2rem;
+  grid-template-columns: auto 1fr auto;
+  /* align-items: center; */
+}
+
+.p-ingredient-name {
+  /* width: 170px; */
+  margin-left: 1rem;
+  padding-left: 1rem;
+  /* border: solid 1px gray; */
+}
