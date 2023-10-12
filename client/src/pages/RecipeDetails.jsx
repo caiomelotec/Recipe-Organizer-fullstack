@@ -47,25 +47,42 @@ export const RecipeDetails = () => {
   // console.log(recipeId);
   console.log(ingredients);
   return (
-    <div>
-      <div>
-        <h1>{recipe.recipe_name}</h1>
-        <img src={recipe.imgUrl} alt="" />
+    <div className="detail-container-wrapper">
+      <div className="detail-container">
+        <h1 className="title-detail-page">{recipe.recipe_name}</h1>
+        <img src={recipe.imgUrl} alt="" className="detail-page-img" />
+        <div className="share-div">
+          <button className="btn-detail-page">Teilen</button>
+        </div>
+        <div className="preparation-info-div">
+          <p>60 Min.</p>
+          <p>normal</p>
+          <p>888 kcal</p>
+        </div>
         <div className="ingredients-wrapper-div">
-          {ingredients.map((ingredient) => (
+          {ingredients.map((ingredient, index) => (
             <div
               className="ingredients-div-container"
               key={ingredient.ingredient_id}
             >
-              <div className="ingredient-item-div">
-                <p>{ingredient.quantity}</p>
-                <p>{ingredient.unit}</p>
-                <p className="p-ingredient-name">
+              <div
+                className={
+                  index % 2 === 0
+                    ? "ingredient-item-div-active"
+                    : "ingredient-item-div"
+                }
+              >
+                <div className="div-quantity">{ingredient.quantity}</div>
+                <div className="div-unit">{ingredient.unit}</div>
+                <div className="p-ingredient-name">
                   {ingredient.ingredient_name}
-                </p>
+                </div>
               </div>
             </div>
           ))}
+          <button className="btn-detail-page">
+            Auf die Einkaufsliste setzen
+          </button>
         </div>
       </div>
     </div>
