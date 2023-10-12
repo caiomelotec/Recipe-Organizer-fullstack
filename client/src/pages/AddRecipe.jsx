@@ -57,6 +57,126 @@ export const AddRecipe = () => {
   };
   // console.log(inputList);
 
+  const unitsArray = [
+    "keine Einheit",
+    "Becher",
+    "Beet/e",
+    "Beutel",
+    "Blatt",
+    "Blätter",
+    "Bund",
+    "Bündel",
+    "cl",
+    "cm",
+    "dicke",
+    "dl",
+    "Dose",
+    "dünne",
+    "Ecke(n)",
+    "Eimer",
+    "einige",
+    "einige Stiele",
+    "EL",
+    "EL gehäuft",
+    "EL gestr",
+    "etwas",
+    "evtl",
+    "extra",
+    "Fässchchen",
+    "Fläschen",
+    "Flasche",
+    "Flaschen",
+    "g",
+    "Glas",
+    "Gläser",
+    "gr. Dose/n",
+    "gr. Gläser",
+    "gr. Kopf",
+    "gr. Scheibe(n)",
+    "gr. Stück(e)",
+    "große",
+    "großen",
+    "großer",
+    "großes",
+    "halbe",
+    "Halm(e)",
+    "Handvoll",
+    "Kästchen",
+    "kg",
+    "kl. Bund",
+    "kl. Dose/n",
+    "kl. Glas",
+    "kl. Gläser",
+    "kl. Kopf",
+    "kl. Scheibe(n)",
+    "kl. Stück",
+    "kleine",
+    "kleiner",
+    "kleines",
+    "Knolle/n",
+    "Kopf",
+    "Köpfe",
+    "Körner",
+    "Kugel",
+    "Kugel/n",
+    "Kugeln",
+    "kg",
+    "Liter",
+    "m,-große",
+    "m,-großer",
+    "m,-großes",
+    "mehr",
+    "mg",
+    "ml",
+    "Msp.",
+    "n. B",
+    "Paar",
+    "Paket",
+    "Pck",
+    "Pkt",
+    "Platte/n",
+    "Port",
+    "Prise(n)",
+    "Prisen",
+    "Prozent %",
+    "Riegel",
+    "Ring/e",
+    "Rippe/n",
+    "Rispe(n)",
+    "Rolle",
+    "Schälchen",
+    "Scheibe/n",
+    "Schuss",
+    "Spritzer",
+    "Stange/n",
+    "Stängel",
+    "Staude(n)",
+    "Stick(s)",
+    "Stiel/e",
+    "Stiele",
+    "Streifen",
+    "Stück(e)",
+    "Tablette(n)",
+    "Tafel",
+    "Tafeln",
+    "Tasse",
+    "Tasse/n",
+    "Teil/e",
+    "TL",
+    "TL, gehäuft",
+    "TL, gestr",
+    "Topft",
+    "Tropfen",
+    "Tube/n",
+    "viel",
+    "wenig",
+    "Würfel",
+    "Wurzel",
+    "Wurzel/n",
+    "Zehe/n",
+    "Zweig/e",
+  ];
+
   return (
     <div className="forms-wrapper-container">
       <div className="form-container">
@@ -99,29 +219,11 @@ export const AddRecipe = () => {
                 value={ingredient.unit}
                 className="unity-select"
               >
-                <option value="">keine Einheit</option>
-                <option value="Becher">Becher</option>
-                <option value="Beet/e">Beet/e</option>
-                <option value="Beutel">Beutel</option>
-                <option value="Blatt">Blatt</option>
-                <option value="Blätter">Blätter</option>
-                <option value="Bund">Bund</option>
-                <option value="Bündel">Bündel</option>
-                <option value="cl">cl</option>
-                <option value="cm">cm</option>
-                <option value="dicke">dicke</option>
-                <option value="dl">dl</option>
-                <option value="Dose">Dose</option>
-                <option value="dünne">dünne</option>
-                <option value="Ecke(n)">Ecke(n)</option>
-                <option value="Eimer">Eimer</option>
-                <option value="einige">einige</option>
-                <option value="einige Stiele">einige Stiele</option>
-                <option value="g">g</option>
-                <option value="große">große</option>
-                <option value="ml">ml</option>
-                <option value="EL">EL</option>
-                <option value="Stück(e)">Stück(e)</option>
+                {unitsArray.map((unit, index) => (
+                  <option key={index} value={unit}>
+                    {unit}
+                  </option>
+                ))}
               </select>
               <input
                 type="text"
