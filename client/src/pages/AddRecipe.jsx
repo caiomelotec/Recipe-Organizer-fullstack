@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
 
 export const AddRecipe = () => {
   const createEmptyIngredient = () => ({
@@ -177,79 +178,171 @@ export const AddRecipe = () => {
     "Zweig/e",
   ];
 
+  // handle separation of forms
+  const [formStep, setFormStep] = useState(0);
+  const completeFormStep = () => {
+    setFormStep((prev) => prev + 1);
+  };
+  const backFormStep = () => {
+    setFormStep((prev) => prev - 1);
+  };
+
   return (
     <div className="forms-wrapper-container">
       <div className="form-container">
+        <div className="recipe-steps-div">
+          <h2>Rezept eingeben</h2>
+          <button className="steps-btn">1️⃣ Rezept</button>
+          <button className="steps-btn">2️⃣ Zubereitung</button>
+        </div>
         <div className="background-div"></div>
+        {/* form */}
         <form>
-          <label>Rezeptname</label>
-          <input
-            type="text"
-            placeholder="Rezeptname"
-            name="recipe_name"
-            id="recipe_name"
-            onChange={handleInputChange}
-          />
-          <label>Imag URL</label>
-          <input
-            type="text"
-            name="imgUrl"
-            id="imgUrl"
-            onChange={handleInputChange}
-          />
-          <div className="dynamic-inputstitle-div">
-            <p className="menge-title">Menge</p>
-            <p>Einheit</p>
-            <p>Zutatenname</p>
-          </div>
-          {inputList.map((ingredient, index) => (
-            <div key={index} className="dynamic-inputs-div">
-              <input
-                type="number"
-                value={ingredient.quantity}
-                min={1}
-                name="quantity"
-                id="quantity"
-                onChange={(e) => handleInputChangeQuantity(e, index)}
-              />
-              <select
-                name="unit"
-                id="unit"
-                onChange={(e) => handleInputChangeUnit(e, index)}
-                value={ingredient.unit}
-                className="unity-select"
-              >
-                {unitsArray.map((unit, index) => (
-                  <option key={index} value={unit}>
-                    {unit}
-                  </option>
-                ))}
-              </select>
+          {formStep === 0 && (
+            <section className="section-form-one">
+              <label>Rezeptname</label>
               <input
                 type="text"
-                value={ingredient.ingredient_name}
-                onChange={(e) => handleInputIngredientNameChange(e, index)}
-                placeholder="Zutatenname"
-                name="ingredient_name"
-                id="ingredient_name"
+                placeholder="Rezeptname"
+                name="recipe_name"
+                id="recipe_name"
+                onChange={handleInputChange}
               />
-              {inputList.length > 1 && (
-                <button
-                  className="remove-inputs-btn"
-                  onClick={() => handleRemoveField(index)}
-                >
-                  Löschen
-                </button>
-              )}
-            </div>
-          ))}
-          <button
-            type="submit"
-            className="add-inputs-btn"
-            onClick={handleSubmit}
-          >
-            Rezept einreichen
-          </button>
+              <label>Imag URL</label>
+              <input
+                type="text"
+                name="imgUrl"
+                id="imgUrl"
+                onChange={handleInputChange}
+              />
+              <div className="dynamic-inputstitle-div">
+                <p className="menge-title">Menge</p>
+                <p>Einheit</p>
+                <p>Zutatenname</p>
+              </div>
+              {inputList.map((ingredient, index) => (
+                <div key={index} className="dynamic-inputs-div">
+                  <input
+                    type="number"
+                    value={ingredient.quantity}
+                    min={1}
+                    name="quantity"
+                    id="quantity"
+                    onChange={(e) => handleInputChangeQuantity(e, index)}
+                  />
+                  <select
+                    name="unit"
+                    id="unit"
+                    onChange={(e) => handleInputChangeUnit(e, index)}
+                    value={ingredient.unit}
+                    className="unity-select"
+                  >
+                    {unitsArray.map((unit, index) => (
+                      <option key={index} value={unit}>
+                        {unit}
+                      </option>
+                    ))}
+                  </select>
+                  <input
+                    type="text"
+                    value={ingredient.ingredient_name}
+                    onChange={(e) => handleInputIngredientNameChange(e, index)}
+                    placeholder="Zutatenname"
+                    name="ingredient_name"
+                    id="ingredient_name"
+                  />
+                  {inputList.length > 1 && (
+                    <button
+                      className="remove-inputs-btn"
+                      onClick={() => handleRemoveField(index)}
+                    >
+                      Löschen
+                    </button>
+                  )}
+                </div>
+              ))}
+
+              <div>
+                <button onClick={completeFormStep}>Weiter</button>
+              </div>
+            </section>
+          )}
+
+          {formStep === 1 && (
+            <section className="section-form-two">
+              <label>Rezeptname</label>
+              <input
+                type="text"
+                placeholder="Rezeptname"
+                name="recipe_name"
+                id="recipe_name"
+                onChange={handleInputChange}
+              />
+              <label>Imag URL</label>
+              <input
+                type="text"
+                name="imgUrl"
+                id="imgUrl"
+                onChange={handleInputChange}
+              />
+              <div className="dynamic-inputstitle-div">
+                <p className="menge-title">Menge</p>
+                <p>Einheit</p>
+                <p>Zutatenname</p>
+              </div>
+              {inputList.map((ingredient, index) => (
+                <div key={index} className="dynamic-inputs-div">
+                  <input
+                    type="number"
+                    value={ingredient.quantity}
+                    min={1}
+                    name="quantity"
+                    id="quantity"
+                    onChange={(e) => handleInputChangeQuantity(e, index)}
+                  />
+                  <select
+                    name="unit"
+                    id="unit"
+                    onChange={(e) => handleInputChangeUnit(e, index)}
+                    value={ingredient.unit}
+                    className="unity-select"
+                  >
+                    {unitsArray.map((unit, index) => (
+                      <option key={index} value={unit}>
+                        {unit}
+                      </option>
+                    ))}
+                  </select>
+                  <input
+                    type="text"
+                    value={ingredient.ingredient_name}
+                    onChange={(e) => handleInputIngredientNameChange(e, index)}
+                    placeholder="Zutatenname"
+                    name="ingredient_name"
+                    id="ingredient_name"
+                  />
+                  {inputList.length > 1 && (
+                    <button
+                      className="remove-inputs-btn"
+                      onClick={() => handleRemoveField(index)}
+                    >
+                      Löschen
+                    </button>
+                  )}
+                </div>
+              ))}
+              <button
+                type="submit"
+                className="add-inputs-btn"
+                onClick={handleSubmit}
+              >
+                Rezept einreichen
+              </button>
+              <div>
+                <button onClick={backFormStep}>Zurück</button>
+              </div>
+            </section>
+          )}
         </form>
         <button className="add-inputs-btn" onClick={handleAddField}>
           Weitere Zutaten hinzufügen

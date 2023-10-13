@@ -12,8 +12,31 @@
 }
 .form-container {
   width: 50%;
+  height: 400px;
   position: relative;
 }
+.recipe-steps-div {
+  background-color: rgb(247, 121, 99);
+  margin: 10px 0;
+  padding: 8px;
+  display: flex;
+  gap: 2rem;
+}
+.steps-btn {
+  /* background-color: rgb(220, 45, 14); */
+  background-color: rgb(207, 203, 203);
+  color: black;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.steps-btn:hover {
+  /* box-shadow: 5px 5px 10px #888; */
+  box-shadow: 3px 3px 11px #000; /* Using a hex value */
+}
+
 .dynamic-inputstitle-div {
   display: grid;
   grid-template-columns: repeat(3, auto);
