@@ -1,5 +1,5 @@
-import React from "react";
-import { useState } from "react";
+// import React, { useRef } from "react";
+import { useState, useRef } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -186,7 +186,16 @@ export const AddRecipe = () => {
   const backFormStep = () => {
     setFormStep((prev) => prev - 1);
   };
-
+  // react hook form
+  const {
+    watch,
+    register,
+    formState: {
+      errors,
+      // touchedFields,
+    },
+  } = useForm({ mode: "all" });
+  // const ref = useRef(null);
   return (
     <div className="forms-wrapper-container">
       <div className="form-container">
@@ -207,13 +216,23 @@ export const AddRecipe = () => {
                 name="recipe_name"
                 id="recipe_name"
                 onChange={handleInputChange}
+                {...register("recipe_name", {
+                  required: {
+                    value: true,
+                    message: "Bitte geben Sie einen Rezeptname ein",
+                  },
+                })}
               />
+              {errors.recipe_name && (
+                <p style={{ color: "black" }}>{errors.recipe_name.message}</p>
+              )}
               <label>Imag URL</label>
               <input
                 type="text"
                 name="imgUrl"
                 id="imgUrl"
                 onChange={handleInputChange}
+                {...register("imgUrl", { required: true })}
               />
               <div className="dynamic-inputstitle-div">
                 <p className="menge-title">Menge</p>
@@ -229,6 +248,7 @@ export const AddRecipe = () => {
                     name="quantity"
                     id="quantity"
                     onChange={(e) => handleInputChangeQuantity(e, index)}
+                    // {...register("quantity", { required: true })} // Use register here
                   />
                   <select
                     name="unit"
@@ -236,6 +256,7 @@ export const AddRecipe = () => {
                     onChange={(e) => handleInputChangeUnit(e, index)}
                     value={ingredient.unit}
                     className="unity-select"
+                    // {...register("unit", { required: true })}
                   >
                     {unitsArray.map((unit, index) => (
                       <option key={index} value={unit}>
@@ -250,6 +271,7 @@ export const AddRecipe = () => {
                     placeholder="Zutatenname"
                     name="ingredient_name"
                     id="ingredient_name"
+                    // {...register("ingredient_name", { required: true })}
                   />
                   {inputList.length > 1 && (
                     <button
@@ -290,47 +312,7 @@ export const AddRecipe = () => {
                 <p>Einheit</p>
                 <p>Zutatenname</p>
               </div>
-              {inputList.map((ingredient, index) => (
-                <div key={index} className="dynamic-inputs-div">
-                  <input
-                    type="number"
-                    value={ingredient.quantity}
-                    min={1}
-                    name="quantity"
-                    id="quantity"
-                    onChange={(e) => handleInputChangeQuantity(e, index)}
-                  />
-                  <select
-                    name="unit"
-                    id="unit"
-                    onChange={(e) => handleInputChangeUnit(e, index)}
-                    value={ingredient.unit}
-                    className="unity-select"
-                  >
-                    {unitsArray.map((unit, index) => (
-                      <option key={index} value={unit}>
-                        {unit}
-                      </option>
-                    ))}
-                  </select>
-                  <input
-                    type="text"
-                    value={ingredient.ingredient_name}
-                    onChange={(e) => handleInputIngredientNameChange(e, index)}
-                    placeholder="Zutatenname"
-                    name="ingredient_name"
-                    id="ingredient_name"
-                  />
-                  {inputList.length > 1 && (
-                    <button
-                      className="remove-inputs-btn"
-                      onClick={() => handleRemoveField(index)}
-                    >
-                      Löschen
-                    </button>
-                  )}
-                </div>
-              ))}
+
               <button
                 type="submit"
                 className="add-inputs-btn"
