@@ -187,16 +187,6 @@ export const AddRecipe = () => {
     setFormStep((prev) => prev - 1);
   };
   // react hook form
-  const {
-    isValid,
-    watch,
-    register,
-    formState: {
-      errors,
-      // touchedFields,
-    },
-  } = useForm({ mode: "all" });
-  // const ref = useRef(null);
   return (
     <div className="forms-wrapper-container">
       <div className="form-container">
@@ -209,6 +199,7 @@ export const AddRecipe = () => {
                 : null
             }
             className="steps-btn"
+            onClick={() => setFormStep(0)}
           >
             1️⃣ Rezept
           </button>
@@ -219,6 +210,7 @@ export const AddRecipe = () => {
                 : null
             }
             className="steps-btn"
+            onClick={() => setFormStep(1)}
           >
             2️⃣ Zubereitung
           </button>
@@ -231,7 +223,7 @@ export const AddRecipe = () => {
               className="section-form-one"
               style={
                 formStep === 0
-                  ? { display: "block" }
+                  ? { visibility: "visible" }
                   : { visibility: "hidden", position: "absolute" }
               }
             >
@@ -242,23 +234,14 @@ export const AddRecipe = () => {
                 name="recipe_name"
                 id="recipe_name"
                 onChange={handleInputChange}
-                {...register("recipe_name", {
-                  required: {
-                    value: true,
-                    message: "Bitte geben Sie einen Rezeptname ein",
-                  },
-                })}
+                required
               />
-              {errors.recipe_name && (
-                <p style={{ color: "black" }}>{errors.recipe_name.message}</p>
-              )}
               <label>Image URL</label>
               <input
                 type="text"
                 name="imgUrl"
                 id="imgUrl"
                 onChange={handleInputChange}
-                {...register("imgUrl", { required: true })}
               />
               <div className="dynamic-inputstitle-div">
                 <p className="menge-title">Menge</p>
@@ -274,7 +257,6 @@ export const AddRecipe = () => {
                     name="quantity"
                     id="quantity"
                     onChange={(e) => handleInputChangeQuantity(e, index)}
-                    // {...register("quantity", { required: true })} // Use register here
                   />
                   <select
                     name="unit"
@@ -282,7 +264,6 @@ export const AddRecipe = () => {
                     onChange={(e) => handleInputChangeUnit(e, index)}
                     value={ingredient.unit}
                     className="unity-select"
-                    // {...register("unit", { required: true })}
                   >
                     {unitsArray.map((unit, index) => (
                       <option key={index} value={unit}>
@@ -297,7 +278,6 @@ export const AddRecipe = () => {
                     placeholder="Zutatenname"
                     name="ingredient_name"
                     id="ingredient_name"
-                    // {...register("ingredient_name", { required: true })}
                   />
                   {inputList.length > 1 && (
                     <button
@@ -312,47 +292,47 @@ export const AddRecipe = () => {
             </section>
           )}
 
-          {formStep >= 1 && (
-            <section
-              className="section-form-two"
-              style={
-                formStep === 1 ? { display: "block" } : { visibility: "hidden" }
-              }
-            >
-              <div className="recipe-preparation-div">
-                <h5>Rezeptzubereitung</h5>
-                <p>
-                  Hier kannst du beschreiben, welche Schritte für die
-                  Zubereitung des Rezeptes notwendig sind. Bitte achte darauf,
-                  dass alle relevanten Informationen enthalten sind, z.B.
-                  Angaben zur Temperatur des Backofens und dass alle von dir
-                  aufgeführten Zutaten enthalten sind
-                </p>
-                <textarea
-                  name="recipe_preparation"
-                  id="recipe_preparation"
-                  cols="100"
-                  rows="8"
-                  onChange={handleInputChange}
-                ></textarea>
-              </div>
-              <div>
-                <button onClick={backFormStep} className="step-btn">
-                  Zurück
-                </button>
-                <button
-                  type="submit"
-                  className="add-inputs-btn"
-                  onClick={handleSubmit}
-                >
-                  Rezept einreichen
-                </button>
-              </div>
-            </section>
-          )}
+          <section
+            className="section-form-two"
+            style={
+              formStep === 1
+                ? { visibility: "visible" }
+                : { visibility: "hidden" }
+            }
+          >
+            <div className="recipe-preparation-div">
+              <h5>Rezeptzubereitung</h5>
+              <p>
+                Hier kannst du beschreiben, welche Schritte für die Zubereitung
+                des Rezeptes notwendig sind. Bitte achte darauf, dass alle
+                relevanten Informationen enthalten sind, z.B. Angaben zur
+                Temperatur des Backofens und dass alle von dir aufgeführten
+                Zutaten enthalten sind
+              </p>
+              <textarea
+                name="recipe_preparation"
+                id="recipe_preparation"
+                cols="100"
+                rows="8"
+                onChange={handleInputChange}
+              ></textarea>
+            </div>
+            <div className="btns-div">
+              <button onClick={backFormStep} className="step-btn">
+                Zurück
+              </button>
+              <button
+                type="submit"
+                className="handle-submit-btn"
+                onClick={handleSubmit}
+              >
+                Rezept einreichen
+              </button>
+            </div>
+          </section>
         </form>
         {formStep === 0 && (
-          <div>
+          <div className="btns-div">
             <button className="add-inputs-btn" onClick={handleAddField}>
               Weitere Zutaten hinzufügen
             </button>
@@ -362,7 +342,6 @@ export const AddRecipe = () => {
           </div>
         )}
       </div>
-      <pre>{JSON.stringify(watch(), null, 2)}</pre>
     </div>
   );
 };
