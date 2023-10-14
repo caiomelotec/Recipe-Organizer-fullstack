@@ -52,9 +52,13 @@ app.post("/addrecipe", (req, res) => {
   const ingredients = req.body.inputList; // Extract the ingredients data from the request body
 
   //first, insert the recipe
-  const recipeQuery = "INSERT INTO recipes (recipe_name, imgUrl) VALUES (?, ?)";
-  const recipeValues = [recipe.recipe_name, recipe.imgUrl];
-
+  const recipeQuery =
+    "INSERT INTO recipes (recipe_name, imgUrl, recipe_preparation) VALUES (?, ?, ?)";
+  const recipeValues = [
+    recipe.recipe_name,
+    recipe.imgUrl,
+    recipe.recipe_preparation,
+  ];
   db.query(recipeQuery, recipeValues, (err, recipeResult) => {
     if (err) {
       console.error(err);
