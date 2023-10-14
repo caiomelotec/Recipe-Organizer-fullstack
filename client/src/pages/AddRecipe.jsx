@@ -188,6 +188,7 @@ export const AddRecipe = () => {
   };
   // react hook form
   const {
+    isValid,
     watch,
     register,
     formState: {
@@ -201,14 +202,39 @@ export const AddRecipe = () => {
       <div className="form-container">
         <div className="recipe-steps-div">
           <h2>Rezept eingeben</h2>
-          <button className="steps-btn">1️⃣ Rezept</button>
-          <button className="steps-btn">2️⃣ Zubereitung</button>
+          <button
+            style={
+              formStep === 0
+                ? { backgroundColor: "rgb(217, 48, 18)", color: "white" }
+                : null
+            }
+            className="steps-btn"
+          >
+            1️⃣ Rezept
+          </button>
+          <button
+            style={
+              formStep === 1
+                ? { backgroundColor: "rgb(217, 48, 18)", color: "white" }
+                : null
+            }
+            className="steps-btn"
+          >
+            2️⃣ Zubereitung
+          </button>
         </div>
         <div className="background-div"></div>
         {/* form */}
         <form>
-          {formStep === 0 && (
-            <section className="section-form-one">
+          {formStep >= 0 && (
+            <section
+              className="section-form-one"
+              style={
+                formStep === 0
+                  ? { display: "block" }
+                  : { visibility: "hidden", position: "absolute" }
+              }
+            >
               <label>Rezeptname</label>
               <input
                 type="text"
@@ -226,7 +252,7 @@ export const AddRecipe = () => {
               {errors.recipe_name && (
                 <p style={{ color: "black" }}>{errors.recipe_name.message}</p>
               )}
-              <label>Imag URL</label>
+              <label>Image URL</label>
               <input
                 type="text"
                 name="imgUrl"
@@ -283,53 +309,60 @@ export const AddRecipe = () => {
                   )}
                 </div>
               ))}
-
-              <div>
-                <button onClick={completeFormStep}>Weiter</button>
-              </div>
             </section>
           )}
 
-          {formStep === 1 && (
-            <section className="section-form-two">
-              <label>Rezeptname</label>
-              <input
-                type="text"
-                placeholder="Rezeptname"
-                name="recipe_name"
-                id="recipe_name"
-                onChange={handleInputChange}
-              />
-              <label>Imag URL</label>
-              <input
-                type="text"
-                name="imgUrl"
-                id="imgUrl"
-                onChange={handleInputChange}
-              />
-              <div className="dynamic-inputstitle-div">
-                <p className="menge-title">Menge</p>
-                <p>Einheit</p>
-                <p>Zutatenname</p>
+          {formStep >= 1 && (
+            <section
+              className="section-form-two"
+              style={
+                formStep === 1 ? { display: "block" } : { visibility: "hidden" }
+              }
+            >
+              <div className="recipe-preparation-div">
+                <h5>Rezeptzubereitung</h5>
+                <p>
+                  Hier kannst du beschreiben, welche Schritte für die
+                  Zubereitung des Rezeptes notwendig sind. Bitte achte darauf,
+                  dass alle relevanten Informationen enthalten sind, z.B.
+                  Angaben zur Temperatur des Backofens und dass alle von dir
+                  aufgeführten Zutaten enthalten sind
+                </p>
+                <textarea
+                  name="recipe_preparation"
+                  id="recipe_preparation"
+                  cols="100"
+                  rows="8"
+                  onChange={handleInputChange}
+                ></textarea>
               </div>
-
-              <button
-                type="submit"
-                className="add-inputs-btn"
-                onClick={handleSubmit}
-              >
-                Rezept einreichen
-              </button>
               <div>
-                <button onClick={backFormStep}>Zurück</button>
+                <button onClick={backFormStep} className="step-btn">
+                  Zurück
+                </button>
+                <button
+                  type="submit"
+                  className="add-inputs-btn"
+                  onClick={handleSubmit}
+                >
+                  Rezept einreichen
+                </button>
               </div>
             </section>
           )}
         </form>
-        <button className="add-inputs-btn" onClick={handleAddField}>
-          Weitere Zutaten hinzufügen
-        </button>
+        {formStep === 0 && (
+          <div>
+            <button className="add-inputs-btn" onClick={handleAddField}>
+              Weitere Zutaten hinzufügen
+            </button>
+            <button onClick={completeFormStep} className="step-btn">
+              Weiter
+            </button>
+          </div>
+        )}
       </div>
+      <pre>{JSON.stringify(watch(), null, 2)}</pre>
     </div>
   );
 };
