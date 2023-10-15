@@ -19,7 +19,18 @@ export const AddRecipe = () => {
   });
 
   const handleInputChange = (e) => {
-    setRecipe((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    const { name, value, required } = e.target;
+    setRecipe((prev) => ({ ...prev, [name]: value }));
+
+    // Validate required fields
+    if (required && value.trim() === "") {
+      setFormErrors((prevErrors) => ({
+        ...prevErrors,
+        [name]: errorMessages[name],
+      }));
+    } else {
+      setFormErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
+    }
   };
 
   const handleInputIngredientNameChange = (e, index) => {
@@ -190,7 +201,23 @@ export const AddRecipe = () => {
   const backFormStep = () => {
     setFormStep((prev) => prev - 1);
   };
-  // react hook form
+
+  // validation of forms
+
+  const [formErrors, setFormErrors] = useState({
+    recipe_name: "",
+    recipe_preparation: "",
+    portion: "",
+    // Add more fields as needed
+  });
+
+  const errorMessages = {
+    recipe_name: "Bitte gib einen Rezeptnamen ein.",
+    recipe_preparation: "Bitte verfasse einen Zubereitungstext.",
+    portion:
+      "Bitte gib die Anzahl der Portionen an, für die dein Rezept ausgelegt ist.",
+  };
+
   return (
     <div className="forms-wrapper-container">
       <div className="form-container">
@@ -221,6 +248,13 @@ export const AddRecipe = () => {
         </div>
         <div className="background-div"></div>
         {/* form */}
+        <div className="errorMessages-divs">
+          {formErrors.recipe_name && <span>{formErrors.recipe_name}</span>}
+          {formErrors.recipe_preparation && (
+            <span>{formErrors.recipe_preparation}</span>
+          )}
+          {formErrors.portion && <span>{formErrors.portion}</span>}
+        </div>
         <form>
           {formStep >= 0 && (
             <section
@@ -261,6 +295,7 @@ export const AddRecipe = () => {
                     name="portion"
                     id="portion"
                     onChange={handleInputChange}
+                    required
                   />
                   <span>Personen / Portionen.</span>
                 </div>
@@ -332,6 +367,7 @@ export const AddRecipe = () => {
                 Zutaten enthalten sind
               </p>
               <textarea
+                required
                 name="recipe_preparation"
                 id="recipe_preparation"
                 cols="100"
