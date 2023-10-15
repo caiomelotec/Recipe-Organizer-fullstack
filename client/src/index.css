@@ -38,8 +38,10 @@
 }
 
 .dynamic-inputstitle-div {
+  /* display: flex;
+  justify-content: space-between; */
   display: grid;
-  grid-template-columns: repeat(3, auto);
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
 .dynamic-inputs-div {
@@ -52,7 +54,8 @@
   transition: 0.2s;
 }
 .menge-title {
-  margin-left: 4.5rem;
+  padding-left: 4rem;
+  /* margin-left: 3rem; */
 }
 .dynamic-inputs-div:hover {
   background-color: tomato;
@@ -131,12 +134,14 @@
   display: flex;
   flex-direction: column;
 }
+.portion label,
 .img-url input,
 .img-url label,
 .recipe-name label,
 .recipe-name input {
   margin: 0.3rem;
 }
+.portion label,
 .img-url label,
 .recipe-name label {
   font-weight: bold;
@@ -144,4 +149,13 @@
 .img-url input,
 .recipe-name input {
   padding: 3px;
+}
+
+.portion input {
+  width: 3rem;
+  margin: 0 0.3rem;
+}
+.portion div span {
+  font-size: 12px;
+  margin: 0.3rem;
 }

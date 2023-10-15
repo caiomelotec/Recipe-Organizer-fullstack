@@ -2,7 +2,7 @@
 import { useState, useRef } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
+// import { useForm } from "react-hook-form";
 
 export const AddRecipe = () => {
   const createEmptyIngredient = () => ({
@@ -12,7 +12,11 @@ export const AddRecipe = () => {
   });
 
   const [inputList, setInputList] = useState([createEmptyIngredient()]);
-  const [recipe, setRecipe] = useState({ recipe_name: "", imgUrl: "" });
+  const [recipe, setRecipe] = useState({
+    recipe_name: "",
+    imgUrl: "",
+    portion: "",
+  });
 
   const handleInputChange = (e) => {
     setRecipe((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -246,6 +250,20 @@ export const AddRecipe = () => {
                   id="imgUrl"
                   onChange={handleInputChange}
                 />
+              </div>
+              <div className="portion">
+                <label>Portionen</label>
+                <div className="portion-info-div">
+                  <span>Das Rezept ist ausgelegt für</span>
+                  <input
+                    min={0}
+                    type="number"
+                    name="portion"
+                    id="portion"
+                    onChange={handleInputChange}
+                  />
+                  <span>Personen / Portionen.</span>
+                </div>
               </div>
               <div className="dynamic-inputstitle-div">
                 <p className="menge-title">Menge</p>

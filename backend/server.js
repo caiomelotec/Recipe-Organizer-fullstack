@@ -53,11 +53,12 @@ app.post("/addrecipe", (req, res) => {
 
   //first, insert the recipe
   const recipeQuery =
-    "INSERT INTO recipes (recipe_name, imgUrl, recipe_preparation) VALUES (?, ?, ?)";
+    "INSERT INTO recipes (recipe_name, imgUrl, recipe_preparation, portion) VALUES (?, ?, ?, ?)";
   const recipeValues = [
     recipe.recipe_name,
     recipe.imgUrl,
     recipe.recipe_preparation,
+    recipe.portion,
   ];
   db.query(recipeQuery, recipeValues, (err, recipeResult) => {
     if (err) {
