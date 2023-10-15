@@ -238,17 +238,18 @@ export const AddRecipe = () => {
                   required
                 />
               </div>
-
-              <label>Image URL</label>
-              <input
-                type="text"
-                name="imgUrl"
-                id="imgUrl"
-                onChange={handleInputChange}
-              />
+              <div className="img-url">
+                <label>Image URL</label>
+                <input
+                  type="text"
+                  name="imgUrl"
+                  id="imgUrl"
+                  onChange={handleInputChange}
+                />
+              </div>
               <div className="dynamic-inputstitle-div">
                 <p className="menge-title">Menge</p>
-                <p>Einheit</p>
+                <p className="einheit-title">Einheit</p>
                 <p>Zutatenname</p>
               </div>
               {inputList.map((ingredient, index) => (
