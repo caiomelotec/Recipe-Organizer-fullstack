@@ -63,6 +63,7 @@ export const AddRecipe = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       const requestData = { recipe, inputList };
       await axios.post("http://localhost:4000/addrecipe", requestData);
