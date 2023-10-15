@@ -159,3 +159,15 @@
   font-size: 12px;
   margin: 0.3rem;
 }
+.errorMessages-divs {
+  display: flex;
+  flex-direction: column;
+}
+.errorMessages-divs span {
+  color: red;
+  font-size: 12px;
+  /* display: none; */
+}
+/* input:invalid ~ .errorMessages-divs span {
+  display: block;
+} */
