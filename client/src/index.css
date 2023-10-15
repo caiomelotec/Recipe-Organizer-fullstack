@@ -126,3 +126,18 @@
   transform: scale(1.1);
   background-color: rgb(189, 38, 0);
 }
+
+.recipe-name {
+  display: flex;
+  flex-direction: column;
+}
+.recipe-name label,
+.recipe-name input {
+  margin: 0.5rem;
+}
+.recipe-name label {
+  font-weight: bold;
+}
+.recipe-name input {
+  padding: 3px;
+}

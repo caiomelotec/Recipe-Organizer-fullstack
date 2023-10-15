@@ -227,15 +227,18 @@ export const AddRecipe = () => {
                   : { visibility: "hidden", position: "absolute" }
               }
             >
-              <label>Rezeptname</label>
-              <input
-                type="text"
-                placeholder="Rezeptname"
-                name="recipe_name"
-                id="recipe_name"
-                onChange={handleInputChange}
-                required
-              />
+              <div className="recipe-name">
+                <label>Rezeptname</label>
+                <input
+                  type="text"
+                  placeholder="Rezeptname"
+                  name="recipe_name"
+                  id="recipe_name"
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+
               <label>Image URL</label>
               <input
                 type="text"
