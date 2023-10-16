@@ -3,6 +3,8 @@
 .detail-container-wrapper {
   display: flex;
   justify-content: center;
+  /* align-items: center; */
+  height: 185vh;
 }
 .detail-container {
   width: 400px;
@@ -84,4 +86,12 @@
 .preparation-info-div p {
   background-color: #e1dede;
   padding: 2px;
+}
+/* second section */
+.detail-container-section-two {
+  margin: 2rem 0;
+}
+.second-section-detail-title {
+  font-family: "Inria Serif";
+  margin-bottom: 0.5rem;
 }
