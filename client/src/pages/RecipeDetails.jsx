@@ -47,8 +47,8 @@ export const RecipeDetails = () => {
   // console.log(recipeId);
   console.log(ingredients);
   return (
-    <div className="detail-container-wrapper">
-      <div className="detail-container">
+    <div className="detail-container-wrapper" style={{ marginBottom: "2rem" }}>
+      <section className="detail-container">
         <h1 className="title-detail-page">{recipe.recipe_name}</h1>
         <img src={recipe.imgUrl} alt="" className="detail-page-img" />
         <div className="share-div">
@@ -84,7 +84,11 @@ export const RecipeDetails = () => {
             Auf die Einkaufsliste setzen
           </button>
         </div>
-      </div>
+        <section className="detail-container-section-two">
+          <h1 className="second-section-detail-title">Zubereitung</h1>
+          <p>{recipe.recipe_preparation}</p>
+        </section>
+      </section>
     </div>
   );
 };
