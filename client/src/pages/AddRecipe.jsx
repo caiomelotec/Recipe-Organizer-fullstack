@@ -309,9 +309,8 @@ export const AddRecipe = () => {
               {inputList.map((ingredient, index) => (
                 <div key={index} className="dynamic-inputs-div">
                   <input
-                    type="number"
+                    type="text"
                     value={ingredient.quantity}
-                    min={1}
                     name="quantity"
                     id="quantity"
                     onChange={(e) => handleInputChangeQuantity(e, index)}
