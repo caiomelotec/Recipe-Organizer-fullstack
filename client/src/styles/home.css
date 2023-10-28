@@ -13,12 +13,25 @@
   gap: 1rem;
 }
 .recipe-item-div {
+  width: 250px;
+  height: 400px;
   border: solid 1px rgb(172, 172, 172);
   padding: 14px;
-  display: grid;
-  grid-row: 1fr auto auto;
   gap: 0.8rem;
+  display: flex;
+  flex-direction: column;
 }
+.details-div {
+  flex: 1;
+}
+.recipe-img-div {
+  height: 280px;
+  flex: 10;
+}
+.recipe-name-div {
+  flex: 1;
+}
+
 .details-btn {
   background-color: tomato;
   border: none;
@@ -34,6 +47,7 @@
   height: 100%;
   transition: 0.2s;
   border-radius: 8px;
+  object-fit: cover;
 }
 .recipe-img:hover {
   transform: scale(1.05);

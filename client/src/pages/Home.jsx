@@ -24,9 +24,13 @@ export const Home = () => {
       <div className="recipes-container">
         {recipes.map((recipe) => (
           <div key={recipe.recipe_id} className="recipe-item-div">
-            <img className="recipe-img" src={recipe.imgUrl} alt="" />
-            <h4>{recipe.recipe_name}</h4>
-            <div className="deatils-div">
+            <div className="recipe-img-div">
+              <img className="recipe-img" src={recipe.imgUrl} alt="" />
+            </div>
+            <div className="recipe-name-div">
+              <h4>{recipe.recipe_name}</h4>
+            </div>
+            <div className="details-div">
               <button className="details-btn">
                 <Link id="link-details" to={`/recipes/${recipe.recipe_id}`}>
                   Mehr Sehen
