@@ -1,12 +1,15 @@
 import React from "react";
 import Avatar from "react-avatar";
 import "../styles/Header.css";
+import { Link } from "react-router-dom";
 
 export const Header = () => {
   return (
     <header className="header">
       <div className="logo">
-        <h1>Koch</h1>
+        <Link to="/" style={{ color: "inherit" }}>
+          <h1>Koch</h1>
+        </Link>
       </div>
       <div className="search-bar">
         <input
