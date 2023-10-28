@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "../styles/RecipeDetails.css";
+import DOMPurify from "dompurify";
 
 export const RecipeDetails = () => {
   const location = useLocation();
@@ -42,10 +43,7 @@ export const RecipeDetails = () => {
   if (!recipe) {
     return <div>Loading...</div>; // render the loading component if project is not found
   }
-  // console.log(recipe);
 
-  // console.log(recipeId);
-  console.log(ingredients);
   return (
     <div className="detail-container-wrapper" style={{ marginBottom: "2rem" }}>
       <section className="detail-container">
@@ -86,7 +84,11 @@ export const RecipeDetails = () => {
         </div>
         <section className="detail-container-section-two">
           <h1 className="second-section-detail-title">Zubereitung</h1>
-          <p>{recipe.recipe_preparation}</p>
+          <p
+            dangerouslySetInnerHTML={{
+              __html: DOMPurify.sanitize(recipe.recipe_preparation),
+            }}
+          ></p>
         </section>
       </section>
     </div>
