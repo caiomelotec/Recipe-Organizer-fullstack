@@ -1,11 +1,18 @@
 // import React, { useRef } from "react";
-import { useState, useRef } from "react";
+import { useState } from "react";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 // import { useForm } from "react-hook-form";
 import unitsArray from "../data";
 
 export const AddRecipe = () => {
+  // REACT QUILL
+  const [value, setValue] = useState(null);
+
+  console.log(value);
+
   const createEmptyIngredient = () => ({
     ingredient_name: "",
     unit: "",
@@ -17,8 +24,8 @@ export const AddRecipe = () => {
     recipe_name: "",
     imgUrl: "",
     portion: "",
+    recipe_preparation: value,
   });
-
   const handleInputChange = (e) => {
     const { name, value, required } = e.target;
     setRecipe((prev) => ({ ...prev, [name]: value }));
@@ -64,9 +71,10 @@ export const AddRecipe = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      const requestData = { recipe, inputList };
+      // Update the recipe preparation data from the ReactQuill editor before sending it to the server
+      const updatedRecipe = { ...recipe, recipe_preparation: value };
+      const requestData = { recipe: updatedRecipe, inputList };
       await axios.post("http://localhost:4000/addrecipe", requestData);
       navigate("/");
     } catch (error) {
@@ -99,6 +107,8 @@ export const AddRecipe = () => {
     portion:
       "Bitte gib die Anzahl der Portionen an, für die dein Rezept ausgelegt ist.",
   };
+
+  // console.log(recipe);
 
   return (
     <div className="forms-wrapper-container">
@@ -247,14 +257,17 @@ export const AddRecipe = () => {
                 Temperatur des Backofens und dass alle von dir aufgeführten
                 Zutaten enthalten sind
               </p>
-              <textarea
-                required
-                name="recipe_preparation"
-                id="recipe_preparation"
-                cols="100"
-                rows="8"
-                onChange={handleInputChange}
-              ></textarea>
+              <div className="editor-container">
+                <ReactQuill
+                  theme="snow"
+                  value={value}
+                  onChange={setValue}
+                  name="recipe_preparation"
+                  id="recipe_preparation"
+                  className="editor"
+                  required
+                />
+              </div>
             </div>
             <div className="btns-div">
               <button onClick={backFormStep} className="step-btn">

@@ -173,3 +173,14 @@
 /* input:invalid ~ .errorMessages-divs span {
   display: block;
 } */
+
+.editor-container {
+  background-color: white;
+  height: 250px;
+  border: solid 1px lightgray;
+  overflow: scroll;
+}
+.editor {
+  height: 100%;
+  border: none;
+}
