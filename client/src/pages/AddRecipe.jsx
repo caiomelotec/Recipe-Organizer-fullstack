@@ -1,7 +1,6 @@
 // import React, { useRef } from "react";
 import { useState } from "react";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
+
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 // import { useForm } from "react-hook-form";
@@ -9,6 +8,7 @@ import { DynamicInputs } from "../componentes/DynamicInputs";
 import { RecipeStepFormControll } from "../componentes/RecipeStepFormControll";
 import { AddRecipeFormErrors } from "../componentes/AddRecipeFormErrors";
 import { AddRecipeFormFirstSection } from "../componentes/AddRecipeFormFirstSection";
+import { AddRecipeFormSecondSection } from "../componentes/AddRecipeFormSecondSection";
 
 export const AddRecipe = () => {
   const navigate = useNavigate();
@@ -123,39 +123,12 @@ export const AddRecipe = () => {
                 : { visibility: "hidden" }
             }
           >
-            <div className="recipe-preparation-div">
-              <h5>Rezeptzubereitung</h5>
-              <p>
-                Hier kannst du beschreiben, welche Schritte für die Zubereitung
-                des Rezeptes notwendig sind. Bitte achte darauf, dass alle
-                relevanten Informationen enthalten sind, z.B. Angaben zur
-                Temperatur des Backofens und dass alle von dir aufgeführten
-                Zutaten enthalten sind
-              </p>
-              <div className="editor-container">
-                <ReactQuill
-                  theme="snow"
-                  value={value}
-                  onChange={setValue}
-                  name="recipe_preparation"
-                  id="recipe_preparation"
-                  className="editor"
-                  required
-                />
-              </div>
-            </div>
-            <div className="btns-div">
-              <button onClick={backFormStep} className="step-btn">
-                Zurück
-              </button>
-              <button
-                type="submit"
-                className="handle-submit-btn"
-                onClick={handleSubmit}
-              >
-                Rezept einreichen
-              </button>
-            </div>
+            <AddRecipeFormSecondSection
+              value={value}
+              setValue={setValue}
+              backFormStep={backFormStep}
+              handleSubmit={handleSubmit}
+            />
           </section>
         </form>
         {formStep === 0 && (
