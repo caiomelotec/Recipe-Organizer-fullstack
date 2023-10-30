@@ -6,26 +6,32 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 // import { useForm } from "react-hook-form";
 import { DynamicInputs } from "../componentes/DynamicInputs";
+import { RecipeStepFormControll } from "../componentes/RecipeStepFormControll";
 
 export const AddRecipe = () => {
+  const navigate = useNavigate();
   // REACT QUILL
   const [value, setValue] = useState(null);
-
-  console.log(value);
 
   const createEmptyIngredient = () => ({
     ingredient_name: "",
     unit: "",
     quantity: "",
   });
-
   const [inputList, setInputList] = useState([createEmptyIngredient()]);
+  // add new input fields
+  const handleAddField = () => {
+    setInputList([...inputList, createEmptyIngredient()]);
+  };
+
+  // recipe state
   const [recipe, setRecipe] = useState({
     recipe_name: "",
     imgUrl: "",
     portion: "",
     recipe_preparation: value,
   });
+
   const handleInputChange = (e) => {
     const { name, value, required } = e.target;
     setRecipe((prev) => ({ ...prev, [name]: value }));
@@ -41,13 +47,7 @@ export const AddRecipe = () => {
     }
   };
 
-  // add new input fields
-  const handleAddField = () => {
-    setInputList([...inputList, createEmptyIngredient()]);
-  };
-
-  const navigate = useNavigate();
-
+  // add new Recipe
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -71,7 +71,6 @@ export const AddRecipe = () => {
   };
 
   // validation of forms
-
   const [formErrors, setFormErrors] = useState({
     recipe_name: "",
     recipe_preparation: "",
@@ -86,36 +85,10 @@ export const AddRecipe = () => {
       "Bitte gib die Anzahl der Portionen an, für die dein Rezept ausgelegt ist.",
   };
 
-  // console.log(recipe);
-
   return (
     <div className="forms-wrapper-container">
       <div className="form-container">
-        <div className="recipe-steps-div">
-          <h2>Rezept eingeben</h2>
-          <button
-            style={
-              formStep === 0
-                ? { backgroundColor: "rgb(217, 48, 18)", color: "white" }
-                : null
-            }
-            className="steps-btn"
-            onClick={() => setFormStep(0)}
-          >
-            1️⃣ Rezept
-          </button>
-          <button
-            style={
-              formStep === 1
-                ? { backgroundColor: "rgb(217, 48, 18)", color: "white" }
-                : null
-            }
-            className="steps-btn"
-            onClick={() => setFormStep(1)}
-          >
-            2️⃣ Zubereitung
-          </button>
-        </div>
+        <RecipeStepFormControll formStep={formStep} setFormStep={setFormStep} />
         <div className="background-div"></div>
         {/* form */}
         <div className="errorMessages-divs">
