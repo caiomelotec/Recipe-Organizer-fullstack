@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 // import { useForm } from "react-hook-form";
 import { DynamicInputs } from "../componentes/DynamicInputs";
 import { RecipeStepFormControll } from "../componentes/RecipeStepFormControll";
+import { AddRecipeFormErrors } from "../componentes/AddRecipeFormErrors";
 
 export const AddRecipe = () => {
   const navigate = useNavigate();
@@ -90,14 +91,8 @@ export const AddRecipe = () => {
       <div className="form-container">
         <RecipeStepFormControll formStep={formStep} setFormStep={setFormStep} />
         <div className="background-div"></div>
+        <AddRecipeFormErrors formErrors={formErrors} />
         {/* form */}
-        <div className="errorMessages-divs">
-          {formErrors.recipe_name && <span>{formErrors.recipe_name}</span>}
-          {formErrors.recipe_preparation && (
-            <span>{formErrors.recipe_preparation}</span>
-          )}
-          {formErrors.portion && <span>{formErrors.portion}</span>}
-        </div>
         <form>
           {formStep >= 0 && (
             <section
