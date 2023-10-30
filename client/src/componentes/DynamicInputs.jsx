@@ -37,6 +37,7 @@ export const DynamicInputs = ({ inputList, setInputList }) => {
             value={ingredient.quantity}
             name="quantity"
             id="quantity"
+            placeholder="Menge"
             onChange={(e) => handleInputChangeQuantity(e, index)}
           />
           <select
