@@ -5,7 +5,7 @@ import "react-quill/dist/quill.snow.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 // import { useForm } from "react-hook-form";
-import unitsArray from "../data";
+import { DynamicInputs } from "../componentes/DynamicInputs";
 
 export const AddRecipe = () => {
   // REACT QUILL
@@ -41,30 +41,9 @@ export const AddRecipe = () => {
     }
   };
 
-  const handleInputIngredientNameChange = (e, index) => {
-    const newList = [...inputList];
-    newList[index].ingredient_name = e.target.value;
-    setInputList(newList);
-  };
-  const handleInputChangeQuantity = (e, index) => {
-    const newList = [...inputList];
-    newList[index].quantity = e.target.value;
-    setInputList(newList);
-  };
-  const handleInputChangeUnit = (e, index) => {
-    const newList = [...inputList];
-    newList[index].unit = e.target.value;
-    setInputList(newList);
-  };
+  // add new input fields
   const handleAddField = () => {
     setInputList([...inputList, createEmptyIngredient()]);
-  };
-  const handleRemoveField = (index) => {
-    if (inputList.length > 1) {
-      const newList = [...inputList];
-      newList.splice(index, 1);
-      setInputList(newList);
-    }
   };
 
   const navigate = useNavigate();
@@ -81,7 +60,6 @@ export const AddRecipe = () => {
       console.log(error);
     }
   };
-  // console.log(inputList);
 
   // handle separation of forms
   const [formStep, setFormStep] = useState(0);
@@ -197,46 +175,10 @@ export const AddRecipe = () => {
                 <p className="einheit-title">Einheit</p>
                 <p>Zutatenname</p>
               </div>
-              {inputList.map((ingredient, index) => (
-                <div key={index} className="dynamic-inputs-div">
-                  <input
-                    type="text"
-                    value={ingredient.quantity}
-                    name="quantity"
-                    id="quantity"
-                    onChange={(e) => handleInputChangeQuantity(e, index)}
-                  />
-                  <select
-                    name="unit"
-                    id="unit"
-                    onChange={(e) => handleInputChangeUnit(e, index)}
-                    value={ingredient.unit}
-                    className="unity-select"
-                  >
-                    {unitsArray.map((unit, index) => (
-                      <option key={index} value={unit}>
-                        {unit}
-                      </option>
-                    ))}
-                  </select>
-                  <input
-                    type="text"
-                    value={ingredient.ingredient_name}
-                    onChange={(e) => handleInputIngredientNameChange(e, index)}
-                    placeholder="Zutatenname"
-                    name="ingredient_name"
-                    id="ingredient_name"
-                  />
-                  {inputList.length > 1 && (
-                    <button
-                      className="remove-inputs-btn"
-                      onClick={() => handleRemoveField(index)}
-                    >
-                      Löschen
-                    </button>
-                  )}
-                </div>
-              ))}
+              <DynamicInputs
+                inputList={inputList}
+                setInputList={setInputList}
+              />
             </section>
           )}
 
