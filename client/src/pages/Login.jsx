@@ -2,6 +2,7 @@ import React from "react";
 import "../styles/Login.css";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { MdOutlineMailOutline } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 export const Login = () => {
   return (
@@ -26,7 +27,9 @@ export const Login = () => {
           </div>
           <button className="login-page-btn">Einloggen</button>
           <span className="loginlink">Du hast noch kein Koch-Konto?</span>
-          <span className="login-link">Neues Konto erstellen</span>
+          <Link to="/register" className="login-link">
+            Neues Konto erstellen
+          </Link>
         </form>
       </div>
     </div>
