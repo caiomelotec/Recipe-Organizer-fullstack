@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import Avatar from "react-avatar";
 import "../styles/Header.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { NavBar } from "./NavBar";
 
 export const Header = () => {
   const [toggle, setToggle] = useState(false);
 
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  console.log(location);
   return (
     <header className="header">
       <div className="logo">
@@ -21,10 +25,21 @@ export const Header = () => {
           placeholder="z.B Pfannkuchen, Lasagne, Low Carb"
         />
       </div>
-      <div className="avatar" onClick={() => setToggle(!toggle)}>
-        <Avatar className="profile-avatar" name="Caio Melo" size="40" />
+      <div className="avatar">
+        <button
+          className="login-btn"
+          onClick={() => navigate("/login")}
+          style={
+            location.pathname === "/login"
+              ? { display: "none" }
+              : { display: "block" }
+          }
+        >
+          Anmelden
+        </button>
+        {/* <Avatar className="profile-avatar" name="Caio Melo" size="40"  onClick={() => setToggle(!toggle)}/>
+        {toggle ? <NavBar setToggle={setToggle} /> : null} */}
       </div>
-      {toggle ? <NavBar setToggle={setToggle} /> : null}
     </header>
   );
 };
