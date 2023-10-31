@@ -4,6 +4,7 @@
   justify-content: space-around;
   align-items: center;
   padding: 10px;
+  position: relative;
 }
 .profile-avatar {
   cursor: pointer;
@@ -21,4 +22,24 @@
   border: none;
   box-shadow: 0 0 0 1px rgb(255, 0, 0);
   outline: none;
+}
+/* NAV BAR */
+.navbar-container {
+  background-color: white;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border-radius: 8px;
+  position: absolute;
+  border: 2px solid rgb(164, 26, 2);
+  bottom: -5rem;
+  right: 7rem;
+  box-shadow: 0 0 10px rgba(8, 7, 16, 0.4);
+}
+.nav-link,
+.nav-item span {
+  color: inherit;
+  margin-left: 0.4rem;
+  cursor: pointer;
 }
