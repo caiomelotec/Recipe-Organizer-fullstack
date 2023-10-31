@@ -3,10 +3,18 @@ import { Link } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
 import { FiLogOut } from "react-icons/fi";
 import { TfiWrite } from "react-icons/tfi";
+import { AiOutlineHome } from "react-icons/ai";
 
 export const NavBar = ({ setToggle }) => {
   return (
     <nav className="navbar-container">
+      <div className="profile nav-item">
+        <AiOutlineHome />
+        <Link to="/" className="nav-link" onClick={() => setToggle(false)}>
+          Home
+        </Link>
+      </div>
+
       <div className="profile nav-item">
         <CgProfile />
         <Link
