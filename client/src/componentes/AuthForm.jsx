@@ -10,12 +10,14 @@ export const AuthForm = ({
   buttonText,
   linkText,
   linkTo,
+  error,
   handleInputChange,
+  handleSubmit,
 }) => {
   return (
     <div className="login-wrapper">
       <div className="login-container">
-        <form className="login-form">
+        <form className="login-form" onSubmit={handleSubmit}>
           <div className="filter-div"></div>
           <h1 className="login-title">Koch</h1>
           <h3 className="login-subtitle">{title}</h3>
@@ -61,15 +63,19 @@ export const AuthForm = ({
               name="password"
               id="password"
               onChange={handleInputChange}
+              autoComplete="off"
             />
           </div>
-          <button className="login-page-btn">{buttonText}</button>
+          <button className="login-page-btn" type="submit">
+            {buttonText}
+          </button>
           <span className="loginlink">{linkText}</span>
           <Link to={linkTo} className="login-link">
             {title === "Jetzt einloggen"
               ? "Neues Konto erstellen"
               : "Jetzt einloggen"}
           </Link>
+          {error && <p className="error-message">{error}</p>}
         </form>
       </div>
     </div>
