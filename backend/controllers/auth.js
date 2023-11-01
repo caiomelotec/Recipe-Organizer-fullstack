@@ -9,7 +9,7 @@ exports.register = (req, res) => {
 
   db.query(q, [email], (err, data) => {
     if (err) return res.status(500).json(err);
-    if (data.length) return res.status(409).json("User already exists!");
+    if (data.length) return res.status(409).json("Email bereits registriert!");
 
     //Hash the password and create a user
     const salt = bcrypt.genSaltSync(10);
@@ -21,7 +21,7 @@ exports.register = (req, res) => {
 
     db.query(q, [values], (err, data) => {
       if (err) return res.status(500).json(err);
-      return res.status(200).json("User has been created.");
+      return res.status(200).json("Der Benutzer wurde erstellt.");
     });
   });
 };

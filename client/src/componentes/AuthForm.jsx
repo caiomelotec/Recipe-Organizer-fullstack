@@ -3,6 +3,8 @@ import { RiLockPasswordLine } from "react-icons/ri";
 import { MdOutlineMailOutline } from "react-icons/md";
 import "../styles/AuthForm.css";
 import { CgProfile } from "react-icons/cg";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const AuthForm = ({
   title,
@@ -11,7 +13,6 @@ export const AuthForm = ({
   buttonText,
   linkText,
   linkTo,
-  error,
   handleInputChange,
   handleSubmit,
 }) => {
@@ -76,7 +77,7 @@ export const AuthForm = ({
               ? "Neues Konto erstellen"
               : "Jetzt einloggen"}
           </Link>
-          {error && <p className="error-message">{error}</p>}
+          <ToastContainer />
         </form>
       </div>
     </div>
