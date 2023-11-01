@@ -10,6 +10,7 @@ export const AuthForm = ({
   buttonText,
   linkText,
   linkTo,
+  handleInputChange,
 }) => {
   return (
     <div className="login-wrapper">
@@ -26,6 +27,7 @@ export const AuthForm = ({
                 placeholder="Vorname"
                 name="firstname"
                 id="firstname"
+                onChange={handleInputChange}
               />
             </div>
           )}
@@ -37,6 +39,7 @@ export const AuthForm = ({
                 placeholder="Nachname"
                 name="lastname"
                 id="lastname"
+                onChange={handleInputChange}
               />
             </div>
           )}
@@ -47,6 +50,7 @@ export const AuthForm = ({
               placeholder={emailPlaceholder}
               name="email"
               id="email"
+              onChange={handleInputChange}
             />
           </div>
           <div className="password-div">
@@ -56,6 +60,7 @@ export const AuthForm = ({
               placeholder={passwordPlaceholder}
               name="password"
               id="password"
+              onChange={handleInputChange}
             />
           </div>
           <button className="login-page-btn">{buttonText}</button>
