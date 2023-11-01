@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Avatar from "react-avatar";
 import "../styles/Header.css";
 import { Link, useNavigate, useLocation } from "react-router-dom";
@@ -10,7 +10,6 @@ export const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  console.log(location);
   return (
     <header className="header">
       <div className="logo">
