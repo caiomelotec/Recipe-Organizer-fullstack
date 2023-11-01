@@ -5,27 +5,23 @@ var jwt = require("jsonwebtoken");
 exports.register = (req, res) => {
   const { firstname, lastname, email, password } = req.body;
   //CHECK EXISTING USER
-  const checkUserQuery = "SELECT * FROM users WHERE email = ?";
+  const q = "SELECT * FROM users WHERE email = ?";
 
-  db.query(checkUserQuery, [email], (err, data) => {
+  db.query(q, [email], (err, data) => {
     if (err) return res.status(500).json(err);
+    if (data.length) return res.status(409).json("User already exists!");
 
-    if (data.length > 0)
-      return res.status(409).json("Email Already Registered");
-
-    const queryInsert =
-      "INSERT INTO users (`firstname`, `lastname`, `email`, `password`) VALUES (?)";
     //Hash the password and create a user
-    bcrypt.hash(password, 10, (err, hashPassword) => {
-      if (err) return res.status(500).json("Error hashing the password");
+    const salt = bcrypt.genSaltSync(10);
+    const hash = bcrypt.hashSync(password, salt);
 
-      const values = [firstname, lastname, email, hashPassword];
+    const q =
+      "INSERT INTO users(`firstname`, `lastname`,`email`,`password`) VALUES (?)";
+    const values = [firstname, lastname, email, hash];
 
-      db.query(queryInsert, values, (err, results) => {
-        if (err) return res.status(500).json("Error by creating a new user");
-
-        res.status(200).json("User has been created");
-      });
+    db.query(q, [values], (err, data) => {
+      if (err) return res.status(500).json(err);
+      return res.status(200).json("User has been created.");
     });
   });
 };
