@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { MdOutlineMailOutline } from "react-icons/md";
+import "../styles/AuthForm.css";
 import { CgProfile } from "react-icons/cg";
 
 export const AuthForm = ({

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import "../styles/Login.css";
 import { AuthForm } from "../componentes/AuthForm";
 
 export const Login = () => {
