@@ -8,7 +8,13 @@ const recipesRouters = require("./routes/recipes");
 const authRouters = require("./routes/auth");
 
 app.use(express.json()); // to support JSON-encoded bodies
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
 
 // routes
 app.use(recipesRouters);
