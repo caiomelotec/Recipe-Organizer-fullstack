@@ -51,7 +51,9 @@ export const Header = () => {
               size="40"
               onClick={() => setToggle(!toggle)}
             />
-            {toggle ? <NavBar setToggle={setToggle} /> : null}
+            {toggle ? (
+              <NavBar setToggle={setToggle} currentUser={currentUser} />
+            ) : null}
           </div>
         )}
       </div>
