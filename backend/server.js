@@ -5,6 +5,7 @@ const port = 4000;
 require("dotenv").config();
 const recipesRouters = require("./routes/recipes");
 const authRouters = require("./routes/auth");
+const userRouters = require("./routes/users");
 const cookieParser = require("cookie-parser");
 
 app.use(express.json()); // to support JSON-encoded bodies
@@ -21,6 +22,7 @@ app.use(cookieParser());
 // routes
 app.use(recipesRouters);
 app.use(authRouters);
+app.use(userRouters);
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
