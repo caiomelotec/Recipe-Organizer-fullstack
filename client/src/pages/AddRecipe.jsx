@@ -56,7 +56,9 @@ export const AddRecipe = () => {
       // Update the recipe preparation data from the ReactQuill editor before sending it to the server
       const updatedRecipe = { ...recipe, recipe_preparation: value };
       const requestData = { recipe: updatedRecipe, inputList };
-      await axios.post("http://localhost:4000/addrecipe", requestData);
+      await axios.post("http://localhost:4000/addrecipe", requestData, {
+        withCredentials: true,
+      });
       navigate("/");
     } catch (error) {
       console.log(error);

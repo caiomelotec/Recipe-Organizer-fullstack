@@ -1,4 +1,5 @@
 const db = require("../util/database");
+var jwt = require("jsonwebtoken");
 
 exports.getRecipes = (req, res) => {
   //retriving the recipes data from the database
@@ -29,44 +30,52 @@ exports.getIgredientsByRecipeId = (req, res) => {
 };
 
 exports.AddRecipe = (req, res) => {
-  const recipe = req.body.recipe; // Extract the recipe data from the request body
-  const ingredients = req.body.inputList; // Extract the ingredients data from the request body
+  const token = req.cookies.token;
+  if (!token) return res.status(401).json("Not authenticated!");
 
-  //first, insert the recipe
-  const recipeQuery =
-    "INSERT INTO recipes (recipe_name, imgUrl, recipe_preparation, portion) VALUES (?, ?, ?, ?)";
-  const recipeValues = [
-    recipe.recipe_name,
-    recipe.imgUrl,
-    recipe.recipe_preparation,
-    recipe.portion,
-  ];
-  db.query(recipeQuery, recipeValues, (err, recipeResult) => {
-    if (err) {
-      console.error(err);
-      return res.status(500).send("Error adding recipe");
-    }
+  jwt.verify(token, process.env.JWTKEY, (err, userInfo) => {
+    if (err) return res.status(403).json("Token is not valid!");
 
-    //Get the ID of the inserted recipe
-    const recipeId = recipeResult.insertId;
+    const recipe = req.body.recipe; // Extract the recipe data from the request body
+    const ingredients = req.body.inputList; // Extract the ingredients data from the request body
 
-    //second, insert the ingredients data
-    const ingredientQuery =
-      "INSERT INTO recipes.ingredients (quantity, unit, ingredient_name, recipe_id) VALUES ?";
-    const ingredientValues = ingredients.map((ingredient) => [
-      ingredient.quantity,
-      ingredient.unit,
-      ingredient.ingredient_name,
-      recipeId,
-    ]);
-
-    db.query(ingredientQuery, [ingredientValues], (err, ingredientResult) => {
+    //first, insert the recipe
+    const recipeQuery =
+      "INSERT INTO recipes (recipe_name, imgUrl, recipe_preparation, portion, uid) VALUES (?, ?, ?, ?, ?)";
+    const recipeValues = [
+      recipe.recipe_name,
+      recipe.imgUrl,
+      recipe.recipe_preparation,
+      recipe.portion,
+      userInfo.id,
+    ];
+    db.query(recipeQuery, recipeValues, (err, recipeResult) => {
       if (err) {
         console.error(err);
-        return res.status(500).send("Error adding ingredients");
+        return res.status(500).send("Error adding recipe");
       }
 
-      return res.send("Recipe and ingredients added successfully");
+      //Get the ID of the inserted recipe
+      const recipeId = recipeResult.insertId;
+
+      //second, insert the ingredients data
+      const ingredientQuery =
+        "INSERT INTO recipes.ingredients (quantity, unit, ingredient_name, recipe_id) VALUES ?";
+      const ingredientValues = ingredients.map((ingredient) => [
+        ingredient.quantity,
+        ingredient.unit,
+        ingredient.ingredient_name,
+        recipeId,
+      ]);
+
+      db.query(ingredientQuery, [ingredientValues], (err, ingredientResult) => {
+        if (err) {
+          console.error(err);
+          return res.status(500).send("Error adding ingredients");
+        }
+
+        return res.send("Recipe and ingredients added successfully");
+      });
     });
   });
 };
