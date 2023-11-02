@@ -4,8 +4,18 @@ import { CgProfile } from "react-icons/cg";
 import { FiLogOut } from "react-icons/fi";
 import { TfiWrite } from "react-icons/tfi";
 import { AiOutlineHome } from "react-icons/ai";
+import { useAuthStore } from "../store/authStore";
 
 export const NavBar = ({ setToggle }) => {
+  const { logout } = useAuthStore((state) => state);
+  const handleLgout = async () => {
+    try {
+      setToggle(false);
+      await logout();
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <nav className="navbar-container">
       <div className="profile nav-item">
@@ -37,7 +47,7 @@ export const NavBar = ({ setToggle }) => {
       </div>
       <div className="login-logout-nav nav-item">
         <FiLogOut />
-        <span className="nav-link" onClick={() => setToggle(false)}>
+        <span className="nav-link" onClick={handleLgout}>
           Ausloggen
         </span>
       </div>
