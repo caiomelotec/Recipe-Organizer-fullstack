@@ -14,6 +14,20 @@ exports.getRecipes = (req, res) => {
   });
 };
 
+exports.getSingleRecipe = (req, res) => {
+  const queryR =
+    "SELECT recipes.recipe_name, recipes.imgUrl, recipes.recipe_preparation, recipes.portion, recipes.uid, recipes.date, users.img AS user_img, users.firstname, users.lastname, users.id " +
+    "FROM users " +
+    "JOIN recipes ON users.id = recipes.uid " +
+    "WHERE recipes.recipe_id = ?";
+
+  db.query(queryR, [req.params.id], (err, data) => {
+    if (err) return res.status(500).json(err);
+
+    return res.status(200).json(data[0]);
+  });
+};
+
 exports.getIgredientsByRecipeId = (req, res) => {
   //retriving the ingredients data from the database
   const recipeId = req.params.id;

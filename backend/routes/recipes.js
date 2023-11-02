@@ -11,6 +11,8 @@ router.get(
   recipesController.getIgredientsByRecipeId
 );
 
+router.get("/recipes/:id", recipesController.getSingleRecipe);
+
 router.post("/addrecipe", recipesController.AddRecipe);
 
 module.exports = router;
