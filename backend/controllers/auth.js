@@ -27,22 +27,37 @@ exports.register = (req, res) => {
 };
 
 exports.login = (req, res) => {
-  const { email, pass } = req.body;
-  const q = "SELECT * FROM users WHERE email = ?";
+  const selectUserQuery = "SELECT * FROM users WHERE email = ?";
 
-  db.query(q, [email], (err, data) => {
-    if (err) return res.status(500).json(err);
-    if (data.length > 0) return res.status(404).json("User not found");
+  // Execute the database query using the provided email from the request body
+  db.query(selectUserQuery, [req.body.email], (err, data) => {
+    if (err) {
+      // Handle a database error by returning a 500 Internal Server Error response
+      return res.status(500).json(err);
+    }
+    if (data.length === 0) {
+      // If no user is found with the provided email, return a 404 Not Found response
+      return res.status(404).json("Benutzer nicht gefunden!");
+    }
 
-    // check password
-    const isPasswordCorrect = bcrypt.compareSync(pass, data[0].password);
+    // Check if the provided password matches the hashed password in the database
+    const isPasswordCorrect = bcrypt.compareSync(
+      req.body.password,
+      data[0].password
+    );
 
-    if (!isPasswordCorrect)
-      return res.status(400).json("Wrong Email or Password");
+    if (!isPasswordCorrect) {
+      // If the password is incorrect, return a 400 Bad Request response
+      return res.status(400).json("Falsche E-Mail oder falsches Passwort");
+    }
 
+    // Generate a JSON Web Token (JWT) for the authenticated user
     const token = jwt.sign({ id: data[0].id }, process.env.JWTKEY);
+
+    // Remove the 'password' field from the user data (other fields can be included)
     const { password, ...other } = data[0];
 
+    // Set a cookie with the JWT and return a 200 OK response with the user data
     res
       .cookie("token", token, {
         httpOnly: true,
