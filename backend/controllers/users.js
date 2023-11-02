@@ -31,7 +31,6 @@ exports.checkUserIdMiddleware = (req, res, next) => {
   if (!token) {
     return res.status(401).json("Access denied: No token provided");
   }
-
   try {
     // Verify the JWT token using your secret key
     const decoded = jwt.verify(token, process.env.JWTKEY);
@@ -39,7 +38,6 @@ exports.checkUserIdMiddleware = (req, res, next) => {
     // Get the user's ID from the decoded JWT payload
     const tokenUserId = decoded.id;
 
-    console.log(tokenUserId);
     // Get the requested user's ID from the URL parameters
     const userId = req.params.userId;
     console.log(userId, "user id");
