@@ -23,3 +23,36 @@ exports.getUserById = (req, res) => {
     res.status(200).json(userData[0]);
   });
 };
+
+// router protection
+exports.checkUserIdMiddleware = (req, res, next) => {
+  const token = req.cookies.token;
+
+  if (!token) {
+    return res.status(401).json("Access denied: No token provided");
+  }
+
+  try {
+    // Verify the JWT token using your secret key
+    const decoded = jwt.verify(token, process.env.JWTKEY);
+
+    // Get the user's ID from the decoded JWT payload
+    const tokenUserId = decoded.id;
+
+    console.log(tokenUserId);
+    // Get the requested user's ID from the URL parameters
+    const userId = req.params.userId;
+    console.log(userId, "user id");
+    // Check if the token user's ID matches the requested user's ID
+    if (tokenUserId == userId) {
+      // If they match, continue to the next middleware or route handler
+      next();
+    } else {
+      // If they don't match, return a 403 Forbidden response
+      res.status(403).json("Access denied: User ID does not match token");
+    }
+  } catch (err) {
+    // If the JWT verification fails, return a 401 Unauthorized response
+    res.status(401).json("Access denied: Invalid token");
+  }
+};
