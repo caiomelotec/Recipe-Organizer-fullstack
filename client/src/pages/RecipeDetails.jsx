@@ -3,25 +3,32 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import "../styles/RecipeDetails.css";
 import DOMPurify from "dompurify";
+import { useAuthStore } from "../store/authStore";
 
 export const RecipeDetails = () => {
+  // const { currentUser } = useAuthStore((state) => ({
+  //   currentUser: state.currentUser || null,
+  // }));
+
   const location = useLocation();
   const recipeId = location.pathname.split("/")[2];
 
-  const [recipes, setRecipes] = useState([]);
+  const [recipe, setRecipe] = useState({});
   const [ingredients, setIngredients] = useState([]);
 
   useEffect(() => {
-    const fetchingRecipeData = async () => {
+    const fetchingRecipeAndUserDataByRecipeId = async () => {
       try {
-        const response = await axios.get(`http://localhost:4000/recipes`);
-        setRecipes(response.data);
+        const response = await axios.get(
+          `http://localhost:4000/recipes/${recipeId}`
+        );
+        setRecipe(response.data);
       } catch (err) {
         console.error(err, "Error fetching the recipe data");
       }
     };
-    fetchingRecipeData();
-  }, []);
+    fetchingRecipeAndUserDataByRecipeId();
+  }, [recipeId]);
 
   useEffect(() => {
     const fetchingIngredientsData = async () => {
@@ -37,11 +44,13 @@ export const RecipeDetails = () => {
     fetchingIngredientsData();
   }, []);
 
-  const recipe = recipes.find((recipe) => recipe.recipe_id == recipeId); // single
+  // const recipe = recipes.find((recipe) => recipe.recipe_id == recipeId); // single
 
   if (!recipe) {
     return <div>Loading...</div>; // render the loading component if project is not found
   }
+
+  console.log(recipe);
 
   return (
     <div className="detail-container-wrapper" style={{ marginBottom: "2rem" }}>
@@ -89,6 +98,7 @@ export const RecipeDetails = () => {
             }}
           ></p>
         </section>
+        <h1>Created By: {recipe.firstname + " " + recipe.lastname}</h1>
       </section>
     </div>
   );
