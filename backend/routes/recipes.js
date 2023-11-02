@@ -10,6 +10,7 @@ router.get(
   "/recipes/:id/ingredients",
   recipesController.getIgredientsByRecipeId
 );
+router.get("/recipesbyuserid", recipesController.fetchRecipeByUserId);
 
 router.get("/recipes/:id", recipesController.getSingleRecipe);
 

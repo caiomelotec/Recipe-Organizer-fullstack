@@ -14,6 +14,19 @@ exports.getRecipes = (req, res) => {
   });
 };
 
+exports.fetchRecipeByUserId = (req, res) => {
+  const query =
+    "SELECT r.recipe_id, r.recipe_name, r.imgUrl, r.date " +
+    "FROM recipes r " +
+    "WHERE r.uid = ?";
+
+  db.query(query, [req.params.id], (err, data) => {
+    if (err) return res.status(500).json(err);
+
+    return res.status(200).json(data[0]);
+  });
+};
+
 exports.getSingleRecipe = (req, res) => {
   const queryR =
     "SELECT recipes.recipe_name, recipes.imgUrl, recipes.recipe_preparation, recipes.portion, recipes.uid, recipes.date, users.img AS user_img, users.firstname, users.lastname, users.id " +
@@ -55,12 +68,13 @@ exports.AddRecipe = (req, res) => {
 
     //first, insert the recipe
     const recipeQuery =
-      "INSERT INTO recipes (recipe_name, imgUrl, recipe_preparation, portion, uid) VALUES (?, ?, ?, ?, ?)";
+      "INSERT INTO recipes (recipe_name, imgUrl, recipe_preparation, portion, date, uid) VALUES (?, ?, ?, ?, ?, ?)";
     const recipeValues = [
       recipe.recipe_name,
       recipe.imgUrl,
       recipe.recipe_preparation,
       recipe.portion,
+      recipe.date,
       userInfo.id,
     ];
     db.query(recipeQuery, recipeValues, (err, recipeResult) => {
