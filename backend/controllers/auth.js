@@ -66,3 +66,13 @@ exports.login = (req, res) => {
       .json(other);
   });
 };
+
+exports.logout = (req, res) => {
+  res
+    .clearCookie("token", {
+      sameSite: "none",
+      secure: true,
+    })
+    .status(200)
+    .json("Der Benutzer wurde ausgeloggt");
+};
