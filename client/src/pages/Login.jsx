@@ -4,8 +4,11 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom"; // Import Navigate if not already imported
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useAuthStore } from "../store/authStore";
 
 export const Login = () => {
+  const { login } = useAuthStore((state) => state);
+
   const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [inputs, setInputs] = useState({
@@ -32,9 +35,7 @@ export const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:4000/api/login", inputs, {
-        withCredentials: true,
-      });
+      await login(inputs);
       navigate("/"); // Corrected navigation
     } catch (err) {
       console.log(err);
