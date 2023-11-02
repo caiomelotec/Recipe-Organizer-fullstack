@@ -98,7 +98,17 @@ export const RecipeDetails = () => {
             }}
           ></p>
         </section>
-        <h1>Created By: {recipe.firstname + " " + recipe.lastname}</h1>
+        <section className="detail-container-section-three">
+          <h1 className="second-section-detail-title">Rezept von</h1>
+          <div className="user-info-container">
+            <img src={recipe.user_img} alt="" />
+            <p className="username-info">
+              {recipe.firstname + " " + recipe.lastname}
+            </p>
+            <p className="recipe-date-info">Erstellt am {recipe.date}</p>
+          </div>
+        </section>
+        {/* <h1>Created By: {recipe.firstname + " " + recipe.lastname}</h1> */}
       </section>
     </div>
   );
