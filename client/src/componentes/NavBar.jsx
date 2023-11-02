@@ -1,17 +1,19 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
 import { FiLogOut } from "react-icons/fi";
 import { TfiWrite } from "react-icons/tfi";
 import { AiOutlineHome } from "react-icons/ai";
 import { useAuthStore } from "../store/authStore";
 
-export const NavBar = ({ setToggle }) => {
+export const NavBar = ({ setToggle, currentUser }) => {
+  const navigate = useNavigate();
   const { logout } = useAuthStore((state) => state);
   const handleLgout = async () => {
     try {
       setToggle(false);
       await logout();
+      navigate("/");
     } catch (err) {
       console.log(err);
     }
@@ -28,7 +30,7 @@ export const NavBar = ({ setToggle }) => {
       <div className="profile nav-item">
         <CgProfile />
         <Link
-          to="/profile"
+          to={`/profile/${currentUser.id}`}
           className="nav-link"
           onClick={() => setToggle(false)}
         >
