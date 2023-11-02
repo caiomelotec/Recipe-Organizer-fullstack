@@ -3,6 +3,7 @@ import "../styles/AddRecipe.css";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import moment from "moment";
 // import { useForm } from "react-hook-form";
 import { DynamicInputs } from "../componentes/DynamicInputs";
 import { RecipeStepFormControll } from "../componentes/RecipeStepFormControll";
@@ -32,6 +33,7 @@ export const AddRecipe = () => {
     imgUrl: "",
     portion: "",
     recipe_preparation: value,
+    date: moment(Date.now()).format("DD.MM.YYYY HH:mm"),
   });
 
   const handleInputChange = (e) => {
