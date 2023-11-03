@@ -101,7 +101,7 @@ export const RecipeDetails = () => {
         <section className="detail-container-section-three">
           <h1 className="second-section-detail-title">Rezept von</h1>
           <div className="user-info-container">
-            <img src={recipe.user_img} alt="" />
+            <img src={`../upload/${recipe.user_img}`} alt="" />
             <p className="username-info">
               {recipe.firstname + " " + recipe.lastname}
             </p>
