@@ -54,3 +54,36 @@ exports.checkUserIdMiddleware = (req, res, next) => {
     res.status(401).json("Access denied: Invalid token");
   }
 };
+
+exports.uploadUserImg = (req, res) => {
+  const file = req.file;
+  res.status(200).json(file.filename);
+};
+
+exports.upDateUserImg = (req, res) => {
+  const token = req.cookies.token;
+  if (!token) {
+    return res.status(401).json("Not authenticated!");
+  }
+
+  jwt.verify(token, process.env.JWTKEY, (err, userData) => {
+    if (err) {
+      return res.status(403).json("Token is not valid!");
+    }
+
+    // Ensure that the user ID is obtained from the token's decoded data, not from req.params.
+    const userId = userData.id;
+
+    const updateQuery = "UPDATE users SET img = ? WHERE id = ?";
+
+    db.query(updateQuery, [req.body.img, userId], (err, result) => {
+      if (err) {
+        return res
+          .status(500)
+          .json({ error: "Error updating user image", details: err });
+      }
+
+      return res.json("User image updated successfully.");
+    });
+  });
+};
