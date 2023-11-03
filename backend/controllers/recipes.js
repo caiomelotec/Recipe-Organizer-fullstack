@@ -23,7 +23,7 @@ exports.fetchRecipeByUserId = (req, res) => {
   db.query(query, [req.params.id], (err, data) => {
     if (err) return res.status(500).json(err);
 
-    return res.status(200).json(data[0]);
+    return res.status(200).json(data);
   });
 };
 
