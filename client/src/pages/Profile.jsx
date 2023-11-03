@@ -81,7 +81,6 @@ export const Profile = () => {
 
   const userdata = user ? user : null;
   const recipesdata = recipes ? recipes : null;
-  console.log(recipesdata);
 
   return (
     <div className="profile-page-wrapper">
