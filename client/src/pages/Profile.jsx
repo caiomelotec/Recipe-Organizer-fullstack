@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import "../styles/Profile.css";
+import { DeleteAccountModal } from "../componentes/DeleteAccountModal";
 
 export const Profile = () => {
   const { userId } = useParams();
@@ -9,6 +10,7 @@ export const Profile = () => {
   const [user, setUser] = useState(null);
   const [file, setFile] = useState(null);
   const [recipes, setRecipes] = useState([]);
+  const [deletemodal, setDeleteModal] = useState(false);
 
   // Function to update the user's profile image
   const handleUploadImg = async (e) => {
@@ -41,6 +43,7 @@ export const Profile = () => {
       return res.data;
     } catch (err) {
       console.log(err);
+      w;
     }
   };
 
@@ -108,7 +111,13 @@ export const Profile = () => {
           <p className="profile-id">{userdata.id}</p>
         </section>
         <section className="profile-second-section">
-          <p>Email: {userdata.email}</p>
+          <p>Email: {userdata.email}</p>{" "}
+          <div
+            className="delete-account-btn"
+            onClick={() => setDeleteModal(!deletemodal)}
+          >
+            Konto löschen
+          </div>
         </section>
         <section className="profile-third-section">
           <h3>Meine Rezepte:</h3>
@@ -129,6 +138,10 @@ export const Profile = () => {
           ))}
         </section>
       </div>
+      <DeleteAccountModal
+        deletemodal={deletemodal}
+        setDeleteModal={setDeleteModal}
+      />
     </div>
   );
 };
