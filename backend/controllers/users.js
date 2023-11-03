@@ -3,18 +3,16 @@ const jwt = require("jsonwebtoken");
 
 exports.getUserById = (req, res) => {
   const userId = req.params.userId;
-  console.log("Requested user ID: ", userId);
 
   const userQuery =
     "SELECT id, firstname, lastname, email, img FROM users WHERE users.id = ?";
+
   db.query(userQuery, [userId], (err, userData) => {
     if (err) {
       return res
         .status(500)
         .json({ error: "Error fetching user by id data", details: err });
     }
-
-    console.log("User data retrieved: ", userData);
 
     if (userData.length === 0) {
       return res.status(404).send("User not found");
@@ -40,7 +38,6 @@ exports.checkUserIdMiddleware = (req, res, next) => {
 
     // Get the requested user's ID from the URL parameters
     const userId = req.params.userId;
-    console.log(userId, "user id");
     // Check if the token user's ID matches the requested user's ID
     if (tokenUserId == userId) {
       // If they match, continue to the next middleware or route handler
@@ -84,6 +81,30 @@ exports.upDateUserImg = (req, res) => {
       }
 
       return res.json("User image updated successfully.");
+    });
+  });
+};
+
+exports.deleteUserById = (req, res) => {
+  const token = req.cookies.token;
+  // console.log(token);
+  if (!token) {
+    return res.status(403).json("Token is not valid!");
+  }
+
+  jwt.verify(token, process.env.JWTKEY, (err, userData) => {
+    if (err) {
+      return res.status(403).json("Token is not valid!");
+    }
+
+    const userId = userData.id;
+
+    const deleteUserQuery = "DELETE FROM users WHERE id = ?";
+
+    db.query(deleteUserQuery, [userId], (err, result) => {
+      if (err) return res.status(500).json("Error by deleting user", err);
+
+      res.status(200).json("User deleted successfully");
     });
   });
 };
