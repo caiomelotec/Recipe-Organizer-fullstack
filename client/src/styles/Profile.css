@@ -75,6 +75,19 @@
   flex-direction: column;
   gap: 10px;
 }
+
+.delete-account-btn {
+  background-color: red;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+.delete-account-btn:hover {
+  background-color: rgb(152, 1, 1);
+}
+
 #file {
   background-color: rgb(232, 43, 10);
   color: white;
@@ -82,4 +95,43 @@
   border-radius: 6px;
   cursor: pointer;
   border: none;
+}
+
+/* DELETE ACCOUNT MODAL */
+.delete-modal-container {
+  width: 500px;
+  background-color: white;
+  border: solid 1px gray;
+  position: absolute;
+  transition: 0.25s;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.ja-btn {
+  background-color: red;
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin-right: 2rem;
+  margin-top: 0.5rem;
+  cursor: pointer;
+  transition: 0.12s;
+}
+.nein-btn {
+  background-color: purple;
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.12s;
+}
+
+.ja-btn:hover {
+  background-color: rgb(152, 1, 1);
+}
+.nein-btn:hover {
+  background-color: rgb(84, 1, 84);
 }
