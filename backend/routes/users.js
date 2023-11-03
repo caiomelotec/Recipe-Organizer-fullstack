@@ -27,4 +27,6 @@ router.post(
 
 router.put("/updateuserprofileimg", usersController.upDateUserImg);
 
+router.delete("/deleteuser", usersController.deleteUserById);
+
 module.exports = router;
