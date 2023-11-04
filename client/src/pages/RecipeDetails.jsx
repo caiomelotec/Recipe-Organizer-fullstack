@@ -6,10 +6,11 @@ import DOMPurify from "dompurify";
 import { useAuthStore } from "../store/authStore";
 
 export const RecipeDetails = () => {
-  // const { currentUser } = useAuthStore((state) => ({
-  //   currentUser: state.currentUser || null,
-  // }));
+  const { currentUser } = useAuthStore((state) => ({
+    currentUser: state.currentUser || null,
+  }));
 
+  const navigate = useNavigate();
   const location = useLocation();
   const recipeId = location.pathname.split("/")[2];
 
@@ -44,13 +45,28 @@ export const RecipeDetails = () => {
     fetchingIngredientsData();
   }, []);
 
-  // const recipe = recipes.find((recipe) => recipe.recipe_id == recipeId); // single
+  const deleteRecipeById = async () => {
+    try {
+      const res = await axios.delete(
+        `http://localhost:4000/recipes/${recipeId}`,
+        {
+          withCredentials: true,
+        }
+      );
+      console.log(res);
+      if (res.status === 200) {
+        navigate("/");
+      }
+    } catch (err) {
+      console.error(err, "Error by deleting the recipe");
+    }
+  };
 
   if (!recipe) {
     return <div>Loading...</div>; // render the loading component if project is not found
   }
 
-  console.log(recipe);
+  // console.log(recipe.uid === currentUser.id);
 
   return (
     <div className="detail-container-wrapper" style={{ marginBottom: "2rem" }}>
@@ -59,6 +75,18 @@ export const RecipeDetails = () => {
         <img src={recipe.imgUrl} alt="" className="detail-page-img" />
         <div className="share-div">
           <button className="btn-detail-page">Teilen</button>
+
+          <button
+            className="delete-recipe-btn"
+            onClick={deleteRecipeById}
+            style={
+              currentUser.id == recipe.id
+                ? { cursor: "pointer" }
+                : { cursor: " not-allowed", backgroundColor: "gray" }
+            }
+          >
+            Rezept löschen
+          </button>
         </div>
         <div className="preparation-info-div">
           <p>60 Min.</p>
