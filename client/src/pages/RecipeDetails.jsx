@@ -4,6 +4,7 @@ import axios from "axios";
 import "../styles/RecipeDetails.css";
 import DOMPurify from "dompurify";
 import { useAuthStore } from "../store/authStore";
+import { ShareLinksModal } from "../componentes/ShareLinksModal";
 
 export const RecipeDetails = () => {
   const { currentUser } = useAuthStore((state) => ({
@@ -13,9 +14,9 @@ export const RecipeDetails = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const recipeId = location.pathname.split("/")[2];
-
   const [recipe, setRecipe] = useState({});
   const [ingredients, setIngredients] = useState([]);
+  const [toggleShareModal, setShareModal] = useState(false);
 
   useEffect(() => {
     const fetchingRecipeAndUserDataByRecipeId = async () => {
@@ -67,14 +68,18 @@ export const RecipeDetails = () => {
   }
 
   // console.log(recipe.uid === currentUser.id);
-
   return (
     <div className="detail-container-wrapper" style={{ marginBottom: "2rem" }}>
       <section className="detail-container">
         <h1 className="title-detail-page">{recipe.recipe_name}</h1>
         <img src={recipe.imgUrl} alt="" className="detail-page-img" />
         <div className="share-div">
-          <button className="btn-detail-page">Teilen</button>
+          <button
+            className="btn-detail-page"
+            onClick={() => setShareModal(true)}
+          >
+            Teilen
+          </button>
 
           <button
             className="delete-recipe-btn"
@@ -137,6 +142,9 @@ export const RecipeDetails = () => {
           </div>
         </section>
         {/* <h1>Created By: {recipe.firstname + " " + recipe.lastname}</h1> */}
+        {toggleShareModal ? (
+          <ShareLinksModal recipeId={recipeId} setShareModal={setShareModal} />
+        ) : null}
       </section>
     </div>
   );
