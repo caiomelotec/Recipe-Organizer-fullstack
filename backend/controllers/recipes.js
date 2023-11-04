@@ -107,3 +107,28 @@ exports.AddRecipe = (req, res) => {
     });
   });
 };
+
+exports.deleteRecipeById = (req, res) => {
+  const token = req.cookies.token;
+  if (!token) return res.status(401).json("Not authenticated!");
+
+  jwt.verify(token, process.env.JWTKEY, (err, userInfo) => {
+    if (err) return res.status(403).json("Token is not valid!");
+
+    const recipeId = req.params.id;
+
+    const deleteQuery = "DELETE FROM recipes WHERE recipe_id = ? AND uid = ?";
+
+    db.query(deleteQuery, [recipeId, userInfo.id], (err, data) => {
+      if (err) return res.status(403).json("Error by deleting the recipe");
+
+      if (data.affectedRows === 0) {
+        return res
+          .status(403)
+          .json("You can't delete a recipe that doesn't belong to you.");
+      }
+
+      return res.status(200).json("Recipe has been deleted!");
+    });
+  });
+};
