@@ -139,3 +139,26 @@
   box-shadow: 5px 5px 8px #888;
   background-color: rgb(161, 1, 1);
 }
+
+/* Share modal */
+.share-modal-container {
+  display: flex;
+  align-items: center;
+  width: 500px;
+  background-color: white;
+  padding: 10px;
+  border: solid 1px lightgray;
+  position: absolute;
+  top: 28rem;
+  justify-content: space-between;
+}
+.share-modal-container button {
+  border: none;
+  background-color: transparent;
+  padding: 5px;
+  cursor: pointer;
+}
+.share-icons {
+  display: flex;
+  gap: 10px;
+}
