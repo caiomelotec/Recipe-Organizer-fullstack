@@ -2,9 +2,8 @@
 import "../styles/AddRecipe.css";
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import moment from "moment";
-// import { useForm } from "react-hook-form";
 import { DynamicInputs } from "../componentes/DynamicInputs";
 import { RecipeStepFormControll } from "../componentes/RecipeStepFormControll";
 import { AddRecipeFormErrors } from "../componentes/AddRecipeFormErrors";
@@ -12,16 +11,26 @@ import { AddRecipeFormFirstSection } from "../componentes/AddRecipeFormFirstSect
 import { AddRecipeFormSecondSection } from "../componentes/AddRecipeFormSecondSection";
 
 export const AddRecipe = () => {
+  const location = useLocation();
+  const state = location.state;
+  const isEdit = location.search.includes("edit");
   const navigate = useNavigate();
   // REACT QUILL
-  const [value, setValue] = useState(null);
-
+  const [value, setValue] = useState(isEdit ? state?.recipe_preparation : "");
+  // console.log(state);
   const createEmptyIngredient = () => ({
     ingredient_name: "",
     unit: "",
     quantity: "",
   });
-  const [inputList, setInputList] = useState([createEmptyIngredient()]);
+  // state for ingredients
+  const [inputList, setInputList] = useState(() => {
+    if (isEdit && state?.ingredients) {
+      return state.ingredients;
+    } else {
+      return [createEmptyIngredient()];
+    }
+  });
   // add new input fields
   const handleAddField = () => {
     setInputList([...inputList, createEmptyIngredient()]);
@@ -29,9 +38,9 @@ export const AddRecipe = () => {
 
   // recipe state
   const [recipe, setRecipe] = useState({
-    recipe_name: "",
-    imgUrl: "",
-    portion: "",
+    recipe_name: isEdit ? state.recipe.recipe_name : "",
+    imgUrl: isEdit ? state.recipe.imgUrl : "",
+    portion: isEdit ? state.recipe.portion : "",
     recipe_preparation: value,
     date: moment(Date.now()).format("DD.MM.YYYY HH:mm"),
   });
@@ -69,12 +78,6 @@ export const AddRecipe = () => {
 
   // handle separation of forms
   const [formStep, setFormStep] = useState(0);
-  const completeFormStep = () => {
-    setFormStep((prev) => prev + 1);
-  };
-  const backFormStep = () => {
-    setFormStep((prev) => prev - 1);
-  };
 
   // validation of forms
   const [formErrors, setFormErrors] = useState({
@@ -110,6 +113,7 @@ export const AddRecipe = () => {
               }
             >
               <AddRecipeFormFirstSection
+                recipe={recipe}
                 handleInputChange={handleInputChange}
               />
               <DynamicInputs
@@ -130,7 +134,7 @@ export const AddRecipe = () => {
             <AddRecipeFormSecondSection
               value={value}
               setValue={setValue}
-              backFormStep={backFormStep}
+              setFormStep={setFormStep}
               handleSubmit={handleSubmit}
             />
           </section>
@@ -140,10 +144,18 @@ export const AddRecipe = () => {
             <button className="add-inputs-btn" onClick={handleAddField}>
               Weitere Zutaten hinzufügen
             </button>
-            <button onClick={completeFormStep} className="step-btn">
+            <button onClick={() => setFormStep(1)} className="step-btn">
               Weiter
             </button>
           </div>
+        )}
+        {formStep === 1 && (
+          <button
+            onClick={() => setFormStep(0)}
+            className="step-btn step-back-btn"
+          >
+            Zurück
+          </button>
         )}
       </div>
     </div>
