@@ -102,6 +102,11 @@
   cursor: pointer;
   /* position: fixed; */
 }
+.step-back-btn {
+  position: absolute;
+  bottom: -2.5rem;
+  right: 1rem;
+}
 .section-form-two {
   position: absolute;
 }

@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "../styles/RecipeDetails.css";
@@ -80,18 +80,39 @@ export const RecipeDetails = () => {
           >
             Teilen
           </button>
+          <div className="delete-and-edit-div">
+            <Link
+              to={`/addrecipe?edit=2`}
+              state={{
+                recipe,
+                ingredients,
+                recipe_preparation: recipe.recipe_preparation,
+              }}
+            >
+              <button
+                className="delete-recipe-btn edit-recipe-btn"
+                style={
+                  currentUser.id == recipe.id
+                    ? { cursor: "pointer" }
+                    : { cursor: " not-allowed", backgroundColor: "gray" }
+                }
+              >
+                Rezept bearbeiten
+              </button>
+            </Link>
 
-          <button
-            className="delete-recipe-btn"
-            onClick={deleteRecipeById}
-            style={
-              currentUser.id == recipe.id
-                ? { cursor: "pointer" }
-                : { cursor: " not-allowed", backgroundColor: "gray" }
-            }
-          >
-            Rezept löschen
-          </button>
+            <button
+              className="delete-recipe-btn"
+              onClick={deleteRecipeById}
+              style={
+                currentUser.id == recipe.id
+                  ? { cursor: "pointer" }
+                  : { cursor: " not-allowed", backgroundColor: "gray" }
+              }
+            >
+              Rezept löschen
+            </button>
+          </div>
         </div>
         <div className="preparation-info-div">
           <p>60 Min.</p>
@@ -141,7 +162,6 @@ export const RecipeDetails = () => {
             <p className="recipe-date-info">Erstellt am {recipe.date}</p>
           </div>
         </section>
-        {/* <h1>Created By: {recipe.firstname + " " + recipe.lastname}</h1> */}
         {toggleShareModal ? (
           <ShareLinksModal recipeId={recipeId} setShareModal={setShareModal} />
         ) : null}
