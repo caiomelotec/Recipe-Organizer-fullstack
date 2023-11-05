@@ -162,3 +162,14 @@
   display: flex;
   gap: 10px;
 }
+.delete-and-edit-div {
+  display: flex;
+  gap: 10px;
+}
+
+.edit-recipe-btn {
+  background-color: rgb(83, 0, 83);
+}
+.edit-recipe-btn:hover {
+  background-color: rgb(41, 1, 41);
+}
