@@ -1,6 +1,6 @@
 import React from "react";
 
-export const AddRecipeFormFirstSection = ({ handleInputChange }) => {
+export const AddRecipeFormFirstSection = ({ handleInputChange, recipe }) => {
   return (
     <>
       <div className="recipe-name">
@@ -9,6 +9,7 @@ export const AddRecipeFormFirstSection = ({ handleInputChange }) => {
           type="text"
           placeholder="Rezeptname"
           name="recipe_name"
+          value={recipe.recipe_name}
           id="recipe_name"
           onChange={handleInputChange}
           required
@@ -19,6 +20,7 @@ export const AddRecipeFormFirstSection = ({ handleInputChange }) => {
         <input
           type="text"
           name="imgUrl"
+          value={recipe.imgUrl}
           id="imgUrl"
           onChange={handleInputChange}
         />
@@ -31,6 +33,7 @@ export const AddRecipeFormFirstSection = ({ handleInputChange }) => {
             min={0}
             type="number"
             name="portion"
+            value={recipe.portion}
             id="portion"
             onChange={handleInputChange}
             required
