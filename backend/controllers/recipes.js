@@ -108,6 +108,59 @@ exports.AddRecipe = (req, res) => {
   });
 };
 
+exports.editRecipe = (req, res) => {
+  const recipe = req.body.recipe;
+  const ingredients = req.body.inputList;
+
+  const token = req.cookies.token;
+
+  if (!token) return res.status(401).json("Not Auth");
+
+  jwt.verify(token, process.env.JWTKEY, (err, userInfo) => {
+    if (err) return res.status(403).json("Token is not valid");
+
+    const recipeId = req.params.id;
+
+    const recipeQuery =
+      "UPDATE recipes SET `recipe_name` = ?, `imgUrl` = ?, `recipe_preparation` = ?, `portion` = ? WHERE `recipe_id` = ? AND `uid` = ?";
+
+    const recipeValues = [
+      recipe.recipe_name,
+      recipe.imgUrl,
+      recipe.recipe_preparation,
+      recipe.portion,
+      recipeId,
+      userInfo.id,
+    ];
+
+    db.query(recipeQuery, recipeValues, (err, recipeResults) => {
+      if (err) return res.status(500).json("Error updating recipe");
+
+      const ingredientsQuery =
+        "UPDATE recipes.ingredients SET `quantity` = ?, `unit` = ?, `ingredient_name` = ? WHERE `ingredient_id` = ? AND `recipe_id` = ?";
+
+      ingredients.forEach((ingredient) => {
+        db.query(
+          ingredientsQuery,
+          [
+            ingredient.quantity,
+            ingredient.unit,
+            ingredient.ingredient_name,
+            ingredient.ingredient_id,
+            recipeId,
+          ],
+          (err, ingredientResults) => {
+            if (err) return res.status(500).json("Error updating ingredients");
+          }
+        );
+      });
+      return res
+        .status(200)
+        .json("Recipe and ingredients updated successfully");
+    });
+  });
+};
+
 exports.deleteRecipeById = (req, res) => {
   const token = req.cookies.token;
   if (!token) return res.status(401).json("Not authenticated!");
