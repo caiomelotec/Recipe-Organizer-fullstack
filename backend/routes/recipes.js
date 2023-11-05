@@ -18,4 +18,6 @@ router.post("/addrecipe", recipesController.AddRecipe);
 
 router.delete("/recipes/:id", recipesController.deleteRecipeById);
 
+router.put("/recipes/:id", recipesController.editRecipe);
+
 module.exports = router;
