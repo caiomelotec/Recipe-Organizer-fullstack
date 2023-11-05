@@ -4,8 +4,8 @@ import "react-quill/dist/quill.snow.css";
 export const AddRecipeFormSecondSection = ({
   value,
   setValue,
-  backFormStep,
   handleSubmit,
+  setFormStep,
 }) => {
   return (
     <>
@@ -30,9 +30,6 @@ export const AddRecipeFormSecondSection = ({
         </div>
       </div>
       <div className="btns-div">
-        <button onClick={backFormStep} className="step-btn">
-          Zurück
-        </button>
         <button
           type="submit"
           className="handle-submit-btn"
