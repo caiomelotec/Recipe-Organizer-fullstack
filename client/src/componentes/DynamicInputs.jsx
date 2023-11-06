@@ -1,6 +1,11 @@
 import React from "react";
 import unitsArray from "../data";
 
+// Function to generate a random unique ID
+function generateUniqueId() {
+  return Math.random().toString(36).substr(2, 9);
+}
+
 export const DynamicInputs = ({ inputList, setInputList }) => {
   const handleInputChangeQuantity = (e, index) => {
     const newList = [...inputList];
@@ -31,7 +36,7 @@ export const DynamicInputs = ({ inputList, setInputList }) => {
   return (
     <>
       {inputList.map((ingredient, index) => (
-        <div key={index} className="dynamic-inputs-div">
+        <div key={generateUniqueId()} className="dynamic-inputs-div">
           <input
             type="text"
             value={ingredient.quantity}
