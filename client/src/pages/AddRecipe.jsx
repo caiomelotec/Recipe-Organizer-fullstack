@@ -35,6 +35,7 @@ export const AddRecipe = () => {
   const handleAddField = () => {
     setInputList([...inputList, createEmptyIngredient()]);
   };
+  // console.log("STATE LOG ingredients id:", state.ingredients[0].recipe_id);
 
   // recipe state
   const [recipe, setRecipe] = useState({
@@ -63,13 +64,20 @@ export const AddRecipe = () => {
   // add new Recipe
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // Update the recipe preparation data from the ReactQuill editor before sending it to the server
+    const updatedRecipe = { ...recipe, recipe_preparation: value };
+    const requestData = { recipe: updatedRecipe, inputList };
+    console.log("REQUEST DATA: ", requestData);
     try {
-      // Update the recipe preparation data from the ReactQuill editor before sending it to the server
-      const updatedRecipe = { ...recipe, recipe_preparation: value };
-      const requestData = { recipe: updatedRecipe, inputList };
-      await axios.post("http://localhost:4000/addrecipe", requestData, {
-        withCredentials: true,
-      });
+      state
+        ? await axios.put(
+            `http://localhost:4000/recipes/${state.ingredients[0].recipe_id}`,
+            { requestData },
+            { withCredentials: true }
+          )
+        : await axios.post("http://localhost:4000/addrecipe", requestData, {
+            withCredentials: true,
+          });
       navigate("/");
     } catch (error) {
       console.log(error);
