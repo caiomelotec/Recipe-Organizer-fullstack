@@ -139,21 +139,126 @@ exports.editRecipe = (req, res) => {
       const ingredientsQuery =
         "UPDATE recipes.ingredients SET `quantity` = ?, `unit` = ?, `ingredient_name` = ? WHERE `ingredient_id` = ? AND `recipe_id` = ?";
 
-      ingredients.forEach((ingredient) => {
+      ingredients.forEach((ingredient, index) => {
         db.query(
           ingredientsQuery,
           [
             ingredient.quantity,
             ingredient.unit,
             ingredient.ingredient_name,
-            ingredient.ingredient_id,
-            recipeId,
+            ingredient.ingredient_id, // Use the ingredient ID to uniquely identify the ingredient
+            recipeId, // The recipe ID should also be used as a condition
           ],
           (err, ingredientResults) => {
             if (err) return res.status(500).json("Error updating ingredients");
+
+            console.log("Updating Ingredient - Quantity:", ingredient.quantity);
+            console.log("Updating Ingredient - Unit:", ingredient.unit);
+            console.log(
+              "Updating Ingredient - Name:",
+              ingredient.ingredient_name
+            );
           }
         );
       });
+      return res
+        .status(200)
+        .json("Recipe and ingredients updated successfully");
+    });
+  });
+};
+
+exports.editRecipe = (req, res) => {
+  const requestData = req.body.requestData; // Extract data from the request
+
+  const token = req.cookies.token;
+
+  if (!token) return res.status(401).json("Not Auth");
+
+  jwt.verify(token, process.env.JWTKEY, (err, userInfo) => {
+    if (err) return res.status(403).json("Token is not valid");
+
+    const recipeId = req.params.id;
+
+    const recipeQuery =
+      "UPDATE recipes SET `recipe_name` = ?, `imgUrl` = ?, `recipe_preparation` = ?, `portion` = ? WHERE `recipe_id` = ? AND `uid` = ?";
+
+    const recipeValues = [
+      requestData.recipe.recipe_name,
+      requestData.recipe.imgUrl,
+      requestData.recipe.recipe_preparation,
+      requestData.recipe.portion,
+      recipeId,
+      userInfo.id,
+    ];
+
+    db.query(recipeQuery, recipeValues, (err, recipeResults) => {
+      if (err) return res.status(500).json("Error updating recipe");
+
+      // Separate existing ingredients and new ingredients
+      const existingIngredients = [];
+      const newIngredients = [];
+
+      requestData.inputList.forEach((ingredient) => {
+        if (ingredient.ingredient_id) {
+          existingIngredients.push(ingredient);
+        } else {
+          newIngredients.push(ingredient);
+        }
+      });
+
+      // Update existing ingredients
+      const ingredientsQuery =
+        "UPDATE recipes.ingredients SET `quantity` = ?, `unit` = ?, `ingredient_name` = ? WHERE `ingredient_id` = ? AND `recipe_id` = ?";
+
+      existingIngredients.forEach((ingredient) => {
+        db.query(
+          ingredientsQuery,
+          [
+            ingredient.quantity,
+            ingredient.unit,
+            ingredient.ingredient_name,
+            ingredient.ingredient_id, // Use the ingredient ID to uniquely identify the ingredient
+            recipeId, // The recipe ID is used as a condition
+          ],
+          (err, ingredientResults) => {
+            if (err)
+              return res
+                .status(500)
+                .json("Error updating existing ingredients");
+
+            console.log("Updating Ingredient - Quantity:", ingredient.quantity);
+            console.log("Updating Ingredient - Unit:", ingredient.unit);
+            console.log(
+              "Updating Ingredient - Name:",
+              ingredient.ingredient_name
+            );
+          }
+        );
+      });
+
+      // Insert new ingredients
+      if (newIngredients.length > 0) {
+        const insertQuery =
+          "INSERT INTO recipes.ingredients (quantity, unit, ingredient_name, recipe_id) VALUES ?";
+
+        const newIngredientValues = newIngredients.map((ingredient) => [
+          ingredient.quantity,
+          ingredient.unit,
+          ingredient.ingredient_name,
+          recipeId,
+        ]);
+
+        db.query(insertQuery, [newIngredientValues], (err, result) => {
+          if (err) {
+            console.error(err);
+            return res.status(500).json("Error inserting new ingredients");
+          }
+
+          console.log("New ingredients inserted successfully");
+        });
+      }
+
       return res
         .status(200)
         .json("Recipe and ingredients updated successfully");
