@@ -109,66 +109,6 @@ exports.AddRecipe = (req, res) => {
 };
 
 exports.editRecipe = (req, res) => {
-  const recipe = req.body.recipe;
-  const ingredients = req.body.inputList;
-
-  const token = req.cookies.token;
-
-  if (!token) return res.status(401).json("Not Auth");
-
-  jwt.verify(token, process.env.JWTKEY, (err, userInfo) => {
-    if (err) return res.status(403).json("Token is not valid");
-
-    const recipeId = req.params.id;
-
-    const recipeQuery =
-      "UPDATE recipes SET `recipe_name` = ?, `imgUrl` = ?, `recipe_preparation` = ?, `portion` = ? WHERE `recipe_id` = ? AND `uid` = ?";
-
-    const recipeValues = [
-      recipe.recipe_name,
-      recipe.imgUrl,
-      recipe.recipe_preparation,
-      recipe.portion,
-      recipeId,
-      userInfo.id,
-    ];
-
-    db.query(recipeQuery, recipeValues, (err, recipeResults) => {
-      if (err) return res.status(500).json("Error updating recipe");
-
-      const ingredientsQuery =
-        "UPDATE recipes.ingredients SET `quantity` = ?, `unit` = ?, `ingredient_name` = ? WHERE `ingredient_id` = ? AND `recipe_id` = ?";
-
-      ingredients.forEach((ingredient, index) => {
-        db.query(
-          ingredientsQuery,
-          [
-            ingredient.quantity,
-            ingredient.unit,
-            ingredient.ingredient_name,
-            ingredient.ingredient_id, // Use the ingredient ID to uniquely identify the ingredient
-            recipeId, // The recipe ID should also be used as a condition
-          ],
-          (err, ingredientResults) => {
-            if (err) return res.status(500).json("Error updating ingredients");
-
-            console.log("Updating Ingredient - Quantity:", ingredient.quantity);
-            console.log("Updating Ingredient - Unit:", ingredient.unit);
-            console.log(
-              "Updating Ingredient - Name:",
-              ingredient.ingredient_name
-            );
-          }
-        );
-      });
-      return res
-        .status(200)
-        .json("Recipe and ingredients updated successfully");
-    });
-  });
-};
-
-exports.editRecipe = (req, res) => {
   const requestData = req.body.requestData; // Extract data from the request
 
   const token = req.cookies.token;
