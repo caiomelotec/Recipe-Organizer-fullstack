@@ -81,37 +81,40 @@ export const RecipeDetails = () => {
             Teilen
           </button>
           <div className="delete-and-edit-div">
-            <Link
-              to={`/addrecipe?edit=2`}
-              state={{
-                recipe,
-                ingredients,
-                recipe_preparation: recipe.recipe_preparation,
-              }}
-            >
+            {currentUser ? (
+              <Link
+                to={`/addrecipe?edit=2`}
+                state={{
+                  recipe,
+                  ingredients,
+                  recipe_preparation: recipe.recipe_preparation,
+                }}
+              >
+                <button
+                  className="delete-recipe-btn edit-recipe-btn"
+                  style={
+                    currentUser?.id == recipe.id
+                      ? { cursor: "pointer" }
+                      : { cursor: " not-allowed", backgroundColor: "gray" }
+                  }
+                >
+                  Rezept bearbeiten
+                </button>
+              </Link>
+            ) : null}
+            {currentUser ? (
               <button
-                className="delete-recipe-btn edit-recipe-btn"
+                className="delete-recipe-btn"
+                onClick={deleteRecipeById}
                 style={
                   currentUser.id == recipe.id
                     ? { cursor: "pointer" }
                     : { cursor: " not-allowed", backgroundColor: "gray" }
                 }
               >
-                Rezept bearbeiten
+                Rezept löschen
               </button>
-            </Link>
-
-            <button
-              className="delete-recipe-btn"
-              onClick={deleteRecipeById}
-              style={
-                currentUser.id == recipe.id
-                  ? { cursor: "pointer" }
-                  : { cursor: " not-allowed", backgroundColor: "gray" }
-              }
-            >
-              Rezept löschen
-            </button>
+            ) : null}
           </div>
         </div>
         <div className="preparation-info-div">
