@@ -29,7 +29,7 @@ exports.fetchRecipeByUserId = (req, res) => {
 
 exports.getSingleRecipe = (req, res) => {
   const queryR =
-    "SELECT recipes.recipe_name, recipes.imgUrl, recipes.recipe_preparation, recipes.portion, recipes.uid, recipes.date, users.img AS user_img, users.firstname, users.lastname, users.id " +
+    "SELECT recipes.recipe_id, recipes.recipe_name, recipes.imgUrl, recipes.recipe_preparation, recipes.portion, recipes.uid, recipes.date, users.img AS user_img, users.firstname, users.lastname, users.id " +
     "FROM users " +
     "JOIN recipes ON users.id = recipes.uid " +
     "WHERE recipes.recipe_id = ?";
@@ -166,13 +166,6 @@ exports.editRecipe = (req, res) => {
               return res
                 .status(500)
                 .json("Error updating existing ingredients");
-
-            console.log("Updating Ingredient - Quantity:", ingredient.quantity);
-            console.log("Updating Ingredient - Unit:", ingredient.unit);
-            console.log(
-              "Updating Ingredient - Name:",
-              ingredient.ingredient_name
-            );
           }
         );
       });
@@ -198,6 +191,51 @@ exports.editRecipe = (req, res) => {
           console.log("New ingredients inserted successfully");
         });
       }
+      // deleting ingredients
+
+      const query =
+        "SELECT ingredient_id FROM recipes.ingredients WHERE recipe_id = ?";
+
+      db.query(query, [recipeId], (err, existingIngredients) => {
+        if (err) {
+          console.error(err);
+          return res.status(500).send("Error retrieving ingredients data");
+        }
+        // get all existing ingredients that has the same recipe_id foreign key
+        const existingIngredientIds = existingIngredients.map(
+          (ingredient) => ingredient.ingredient_id
+        );
+        // get the existing ingredients inside inputList and keep it
+        const ingredientsToKeep = requestData.inputList.map(
+          (ingredient) => ingredient.ingredient_id
+        );
+        // calculates the ingredients to delete by using the filter function on the existingIngredientIds array.
+        // It iterates over each ingredientId in the existingIngredientIds array and checks whether that ingredientId is not included in the ingredientsToKeep array. If an ingredientId is not present in the ingredientsToKeep array, it means the ingredient should be deleted.
+        const ingredientsToDelete = existingIngredientIds.filter(
+          (ingredientId) => !ingredientsToKeep.includes(ingredientId)
+        );
+
+        if (ingredientsToDelete.length > 0) {
+          const deleteQuery =
+            "DELETE FROM recipes.ingredients WHERE recipe_id = ? AND ingredient_id IN (?)";
+
+          db.query(
+            deleteQuery,
+            [recipeId, ingredientsToDelete],
+            (err, deleteResult) => {
+              if (err) {
+                console.error(err);
+                return res.status(500).json("Error deleting ingredients");
+              }
+
+              console.log(
+                "Deleted ingredients with IDs: ",
+                ingredientsToDelete
+              );
+            }
+          );
+        }
+      });
 
       return res
         .status(200)
