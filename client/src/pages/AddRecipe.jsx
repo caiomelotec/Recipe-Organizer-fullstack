@@ -71,7 +71,7 @@ export const AddRecipe = () => {
     try {
       state
         ? await axios.put(
-            `http://localhost:4000/recipes/${state.ingredients[0].recipe_id}`,
+            `http://localhost:4000/recipes/${state.recipe.recipe_id}`,
             { requestData },
             { withCredentials: true }
           )
