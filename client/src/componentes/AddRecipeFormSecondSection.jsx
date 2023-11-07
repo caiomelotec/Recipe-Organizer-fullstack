@@ -1,12 +1,7 @@
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
-export const AddRecipeFormSecondSection = ({
-  value,
-  setValue,
-  handleSubmit,
-  setFormStep,
-}) => {
+export const AddRecipeFormSecondSection = ({ value, setValue }) => {
   return (
     <>
       <div className="recipe-preparation-div">
@@ -30,11 +25,7 @@ export const AddRecipeFormSecondSection = ({
         </div>
       </div>
       <div className="btns-div">
-        <button
-          type="submit"
-          className="handle-submit-btn"
-          onClick={handleSubmit}
-        >
+        <button type="submit" className="handle-submit-btn">
           Rezept einreichen
         </button>
       </div>
