@@ -63,11 +63,34 @@ export const RecipeDetails = () => {
     }
   };
 
+  // shoppingList
+  let ingredientsNames = ingredients.map((item) => item.ingredient_name);
+  let recipeName = recipe.recipe_name;
+
+  const addInngredientsToShoppingList = async () => {
+    let requestData = {
+      recipeName: recipeName,
+      ingredientsNames: ingredientsNames,
+    };
+    console.log(requestData);
+    try {
+      axios.post(
+        "http://localhost:4000/shoppingList",
+        { requestData },
+        { withCredentials: true }
+      );
+    } catch (error) {
+      console.error(error, "Error by adding ingredients to shoppingList");
+    }
+  };
+
   if (!recipe) {
     return <div>Loading...</div>; // render the loading component if project is not found
   }
 
   // console.log(recipe.uid === currentUser.id);
+  // console.log(ingredientsNames);
+  // console.log(recipe.recipe_name);
   return (
     <div className="detail-container-wrapper" style={{ marginBottom: "2rem" }}>
       <section className="detail-container">
@@ -143,7 +166,10 @@ export const RecipeDetails = () => {
               </div>
             </div>
           ))}
-          <button className="btn-detail-page">
+          <button
+            className="btn-detail-page"
+            onClick={addInngredientsToShoppingList}
+          >
             Auf die Einkaufsliste setzen
           </button>
         </div>
