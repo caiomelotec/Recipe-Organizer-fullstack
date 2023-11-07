@@ -4,11 +4,11 @@ import { useState } from "react";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import moment from "moment";
-import { DynamicInputs } from "../componentes/DynamicInputs";
 import { RecipeStepFormControll } from "../componentes/RecipeStepFormControll";
 import { AddRecipeFormErrors } from "../componentes/AddRecipeFormErrors";
 import { AddRecipeFormFirstSection } from "../componentes/AddRecipeFormFirstSection";
 import { AddRecipeFormSecondSection } from "../componentes/AddRecipeFormSecondSection";
+import { DynamicInputs } from "../componentes/DynamicInputs";
 
 export const AddRecipe = () => {
   const location = useLocation();
@@ -17,23 +17,18 @@ export const AddRecipe = () => {
   const navigate = useNavigate();
   // REACT QUILL
   const [value, setValue] = useState(isEdit ? state?.recipe_preparation : "");
-  // console.log(state);
-  const createEmptyIngredient = () => ({
-    ingredient_name: "",
-    unit: "",
-    quantity: "",
-  });
   // state for ingredients
   const [inputList, setInputList] = useState(() => {
     if (isEdit && state?.ingredients) {
       return state.ingredients;
     } else {
-      return [createEmptyIngredient()];
+      return [{ ingredient_name: "", unit: "", quantity: "" }];
     }
   });
   // add new input fields
   const handleAddField = () => {
-    setInputList([...inputList, createEmptyIngredient()]);
+    const ingredientsData = { ingredient_name: "", unit: "", quantity: "" };
+    setInputList([...inputList, ingredientsData]);
   };
   // console.log("STATE LOG ingredients id:", state.ingredients[0].recipe_id);
 
@@ -67,7 +62,7 @@ export const AddRecipe = () => {
     // Update the recipe preparation data from the ReactQuill editor before sending it to the server
     const updatedRecipe = { ...recipe, recipe_preparation: value };
     const requestData = { recipe: updatedRecipe, inputList };
-    console.log("REQUEST DATA: ", requestData);
+
     try {
       state
         ? await axios.put(
@@ -109,15 +104,15 @@ export const AddRecipe = () => {
         <div className="background-div"></div>
         <AddRecipeFormErrors formErrors={formErrors} />
         {/* form */}
-        <form>
+        <form onSubmit={handleSubmit}>
           {formStep >= 0 && (
             // first form step
             <section
               className="section-form-one"
               style={
                 formStep === 0
-                  ? { visibility: "visible" }
-                  : { visibility: "hidden", position: "absolute" }
+                  ? { display: "block" }
+                  : { display: "none", position: "absolute" }
               }
             >
               <AddRecipeFormFirstSection
@@ -125,19 +120,15 @@ export const AddRecipe = () => {
                 handleInputChange={handleInputChange}
               />
               <DynamicInputs
-                inputList={inputList}
                 setInputList={setInputList}
+                inputList={inputList}
               />
             </section>
           )}
 
           <section
             className="section-form-two"
-            style={
-              formStep === 1
-                ? { visibility: "visible" }
-                : { visibility: "hidden" }
-            }
+            style={formStep === 1 ? { display: "block" } : { display: "none" }}
           >
             <AddRecipeFormSecondSection
               value={value}
