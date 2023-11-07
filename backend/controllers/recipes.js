@@ -170,28 +170,7 @@ exports.editRecipe = (req, res) => {
         );
       });
 
-      // Insert new ingredients
-      if (newIngredients.length > 0) {
-        const insertQuery =
-          "INSERT INTO recipes.ingredients (quantity, unit, ingredient_name, recipe_id) VALUES ?";
-
-        const newIngredientValues = newIngredients.map((ingredient) => [
-          ingredient.quantity,
-          ingredient.unit,
-          ingredient.ingredient_name,
-          recipeId,
-        ]);
-
-        db.query(insertQuery, [newIngredientValues], (err, result) => {
-          if (err) {
-            console.error(err);
-            return res.status(500).json("Error inserting new ingredients");
-          }
-
-          console.log("New ingredients inserted successfully");
-        });
-      }
-      // deleting ingredients
+      // deleting ingredients that is not in the InputList
 
       const query =
         "SELECT ingredient_id FROM recipes.ingredients WHERE recipe_id = ?";
@@ -236,6 +215,28 @@ exports.editRecipe = (req, res) => {
           );
         }
       });
+
+      // Insert new ingredients
+      if (newIngredients.length > 0) {
+        const insertQuery =
+          "INSERT INTO recipes.ingredients (quantity, unit, ingredient_name, recipe_id) VALUES ?";
+
+        const newIngredientValues = newIngredients.map((ingredient) => [
+          ingredient.quantity,
+          ingredient.unit,
+          ingredient.ingredient_name,
+          recipeId,
+        ]);
+
+        db.query(insertQuery, [newIngredientValues], (err, result) => {
+          if (err) {
+            console.error(err);
+            return res.status(500).json("Error inserting new ingredients");
+          }
+
+          console.log("New ingredients inserted successfully");
+        });
+      }
 
       return res
         .status(200)
