@@ -13,7 +13,7 @@ export const AccordionSection = ({
   return (
     <>
       <div className="shoppinglist-title" onClick={toggleSection}>
-        <h4>{item.title}</h4>
+        <h4>{item.sl_recipe_name}</h4>
         {isActiveSection ? (
           <AiOutlineMinus className="shoppinglist-arrow-icon" size={22} />
         ) : (
@@ -23,7 +23,7 @@ export const AccordionSection = ({
       {isActiveSection && (
         <div className="shoppinglist-list">
           <ul>
-            {item.items.map((it, j) => (
+            {JSON.parse(item.ingredients_names).map((it, j) => (
               <li key={j}>{it}</li>
             ))}
           </ul>
