@@ -6,7 +6,7 @@
 .shoppinglist-container {
   margin-top: 5rem;
   width: 600px;
-  height: 600px;
+  min-height: 600px;
 }
 .shoppingliste-info-div {
   width: 100%;
