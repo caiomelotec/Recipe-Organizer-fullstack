@@ -5,6 +5,8 @@ import "../styles/RecipeDetails.css";
 import DOMPurify from "dompurify";
 import { useAuthStore } from "../store/authStore";
 import { ShareLinksModal } from "../componentes/ShareLinksModal";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const RecipeDetails = () => {
   const { currentUser } = useAuthStore((state) => ({
@@ -67,6 +69,8 @@ export const RecipeDetails = () => {
   let ingredientsNames = ingredients.map((item) => item.ingredient_name);
   let recipeName = recipe.recipe_name;
 
+  const notify = () => toast("Die Zutaten sind auf deine Einkaufsliste");
+
   const addInngredientsToShoppingList = async () => {
     let requestData = {
       recipeName: recipeName,
@@ -79,6 +83,7 @@ export const RecipeDetails = () => {
         { requestData },
         { withCredentials: true }
       );
+      notify();
     } catch (error) {
       console.error(error, "Error by adding ingredients to shoppingList");
     }
@@ -195,6 +200,18 @@ export const RecipeDetails = () => {
           <ShareLinksModal recipeId={recipeId} setShareModal={setShareModal} />
         ) : null}
       </section>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
     </div>
   );
 };
