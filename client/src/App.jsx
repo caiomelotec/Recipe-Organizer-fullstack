@@ -8,6 +8,7 @@ import { Profile } from "./pages/Profile";
 import { Login } from "./pages/Login";
 import { Register } from "./pages/Register";
 import { RouterAuth } from "./router/RouterAuth.jsx";
+import { ShoppingList } from "./pages/ShoppingList.jsx";
 function App() {
   return (
     <div className="App">
@@ -28,6 +29,14 @@ function App() {
           element={
             <RouterAuth>
               <Profile />
+            </RouterAuth>
+          }
+        />
+        <Route
+          path="/shoppingList/:userId"
+          element={
+            <RouterAuth>
+              <ShoppingList />
             </RouterAuth>
           }
         />
