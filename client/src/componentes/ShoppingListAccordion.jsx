@@ -1,37 +1,50 @@
-import { useState } from "react";
 import React from "react";
 import { AccordionSection } from "./AccordionSection";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 export const ShoppingListAccordion = () => {
   const [activeIndex, setActiveIndex] = useState(null);
-  const shoppingListFakeData = [
-    {
-      title: "Caesar Salad de luxe",
-      items: ["test", "test", "test", "test", "test", "test"],
-    },
-    {
-      title: "Another Item",
-      items: ["item1", "item2", "item3"],
-    },
-    {
-      title: "Yet Another Item",
-      items: ["itemA", "itemB", "itemC", "itemD"],
-    },
-  ];
+
+  const [shoppingList, setShoppingList] = useState([]);
+
+  useEffect(() => {
+    const fetchShoppingListByUserId = async () => {
+      try {
+        const res = await axios.get(
+          "http://localhost:4000/getshoppinglistinfo",
+          { withCredentials: true }
+        );
+        console.log(res.data);
+        // console.log(JSON.parse(res.data[0].ingredients_names));
+        setShoppingList(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchShoppingListByUserId();
+  }, []);
+
+  let recipes = shoppingList ? shoppingList : null;
+
   return (
     <>
-      {shoppingListFakeData.map((item, i) => (
-        <div className="shoppingliste-info-div" key={i}>
-          <AccordionSection
-            item={item}
-            key={i}
-            isActiveSection={activeIndex === i}
-            setActiveIndex={setActiveIndex}
-            activeIndex={activeIndex}
-            sectionIndex={i}
-          />
-        </div>
-      ))}
+      {shoppingList == null ? (
+        <h3>Deine Einkaufsliste is leer 😥</h3>
+      ) : (
+        recipes.map((item, i) => (
+          <div className="shoppingliste-info-div" key={i}>
+            <AccordionSection
+              item={item}
+              key={item.shoppingList_id}
+              isActiveSection={activeIndex === i}
+              setActiveIndex={setActiveIndex}
+              activeIndex={activeIndex}
+              sectionIndex={i}
+            />
+          </div>
+        ))
+      )}
     </>
   );
 };
