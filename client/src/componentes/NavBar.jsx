@@ -5,6 +5,7 @@ import { FiLogOut } from "react-icons/fi";
 import { TfiWrite } from "react-icons/tfi";
 import { AiOutlineHome } from "react-icons/ai";
 import { useAuthStore } from "../store/authStore";
+import { BsCardChecklist } from "react-icons/bs";
 
 export const NavBar = ({ setToggle, currentUser }) => {
   const navigate = useNavigate();
@@ -26,7 +27,6 @@ export const NavBar = ({ setToggle, currentUser }) => {
           Home
         </Link>
       </div>
-
       <div className="profile nav-item">
         <CgProfile />
         <Link
@@ -35,6 +35,16 @@ export const NavBar = ({ setToggle, currentUser }) => {
           onClick={() => setToggle(false)}
         >
           Mein Profil
+        </Link>
+      </div>
+      <div className="profile nav-item">
+        <BsCardChecklist size={20} />
+        <Link
+          to={`/shoppingList/${currentUser.id}`}
+          className="nav-link"
+          onClick={() => setToggle(false)}
+        >
+          Meine Einkaufsliste
         </Link>
       </div>
       <div className="add-recipe-nav nav-item">
