@@ -6,6 +6,7 @@ footer {
   flex-direction: column;
   justify-content: center;
   text-align: center;
+  gap: 5px;
 }
 
 .footer-div {
