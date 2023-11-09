@@ -9,6 +9,7 @@ import { Login } from "./pages/Login";
 import { Register } from "./pages/Register";
 import { RouterAuth } from "./router/RouterAuth.jsx";
 import { ShoppingList } from "./pages/ShoppingList.jsx";
+import { Footer } from "./componentes/Footer.jsx";
 function App() {
   return (
     <div className="App">
@@ -43,6 +44,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>
+      <Footer />
     </div>
   );
 }
