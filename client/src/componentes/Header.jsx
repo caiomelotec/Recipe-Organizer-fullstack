@@ -4,10 +4,16 @@ import "../styles/Header.css";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { NavBar } from "./NavBar";
 import { useAuthStore } from "../store/authStore";
+import { useSearch } from "../store/searchStore";
 export const Header = () => {
   const { currentUser } = useAuthStore((state) => ({
     currentUser: state.currentUser || null,
   }));
+
+  const [searchString, setSearchString] = useSearch((state) => [
+    state.searchString,
+    state.setSearchString,
+  ]);
 
   const [toggle, setToggle] = useState(false);
 
@@ -25,9 +31,11 @@ export const Header = () => {
       </div>
       <div className="search-bar">
         <input
-          type="search"
+          type="text"
           className="search-bar"
           placeholder="z.B Pfannkuchen, Lasagne, Low Carb"
+          value={searchString}
+          onChange={(e) => setSearchString(e.target.value)}
         />
       </div>
       <div className="avatar">
