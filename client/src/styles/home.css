@@ -5,6 +5,7 @@
   display: flex;
   justify-content: center;
   /* align-items: center; */
+  min-height: 80vh;
   margin: 2rem 0;
 }
 .recipes-container {
@@ -57,4 +58,9 @@
   width: 120%;
   height: 120%;
   /* transform: scale(1.05); */
+}
+@media (max-width: 600px) {
+  .recipes-container {
+    grid-template-columns: 1fr;
+  }
 }
