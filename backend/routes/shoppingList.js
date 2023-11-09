@@ -9,4 +9,9 @@ router.get(
 
 router.post("/shoppingList", shoppingListController.addShoppingLList);
 
+router.delete(
+  "/deleteshoppinglistbyid",
+  shoppingListController.deleteShoppingListItemById
+);
+
 module.exports = router;
