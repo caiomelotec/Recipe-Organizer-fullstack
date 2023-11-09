@@ -15,8 +15,6 @@ export const ShoppingListAccordion = () => {
           "http://localhost:4000/getshoppinglistinfo",
           { withCredentials: true }
         );
-        console.log(res.data);
-        // console.log(JSON.parse(res.data[0].ingredients_names));
         setShoppingList(res.data);
       } catch (err) {
         console.log(err);
@@ -29,7 +27,7 @@ export const ShoppingListAccordion = () => {
 
   return (
     <>
-      {shoppingList == null ? (
+      {shoppingList == null || shoppingList.length == 0 ? (
         <h3>Deine Einkaufsliste is leer 😥</h3>
       ) : (
         recipes.map((item, i) => (
