@@ -50,3 +50,19 @@ exports.fetchShoppingListByUserId = (req, res) => {
     });
   });
 };
+
+exports.deleteShoppingListItemById = (req, res) => {
+  const shoppingListId = JSON.parse(req.body.id);
+
+  const deleteQuery = "DELETE from shoppinglist WHERE shoppingList_id = ?";
+
+  db.query(deleteQuery, [shoppingListId], (err, result) => {
+    if (err) {
+      return res.status(500).json({ error: "Error deleting shopping list" });
+    }
+
+    return res
+      .status(200)
+      .json({ message: "Successfully deleted shopping list" });
+  });
+};
