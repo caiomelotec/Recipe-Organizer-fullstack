@@ -40,6 +40,7 @@
   bottom: -11.8rem;
   right: 1.3rem;
   box-shadow: 0 0 10px rgba(8, 7, 16, 0.4);
+  z-index: 1000;
 }
 .nav-link,
 .nav-item span {
