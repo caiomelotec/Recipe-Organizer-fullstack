@@ -1,6 +1,11 @@
 import React from "react";
 
-export const AddRecipeFormFirstSection = ({ handleInputChange, recipe }) => {
+export const AddRecipeFormFirstSection = ({
+  handleInputChange,
+  recipe,
+  setFile,
+  file,
+}) => {
   return (
     <>
       <div className="recipe-name">
@@ -16,14 +21,29 @@ export const AddRecipeFormFirstSection = ({ handleInputChange, recipe }) => {
         />
       </div>
       <div className="img-url">
-        <label>Image URL</label>
+        <input
+          style={{ display: "none" }}
+          type="file"
+          id="file-recipe"
+          name=""
+          onChange={(e) => setFile(e.target.files[0])}
+        />
+        <div className="file-recipe-div">
+          <p className="file-recipe-text">
+            Wähle die passende Datei (JPG) auf deiner Festplatte aus
+          </p>
+          <label htmlFor="file-recipe" id="file-recipe" className="file-recipe">
+            Rezept Bild auswählen
+          </label>
+        </div>
+        {/* <label>Image URL</label>
         <input
           type="text"
           name="imgUrl"
           value={recipe.imgUrl}
           id="imgUrl"
           onChange={handleInputChange}
-        />
+        /> */}
       </div>
       <div className="portion">
         <label>Portionen</label>
