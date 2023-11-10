@@ -199,3 +199,22 @@
     position: relative;
   }
 }
+
+/* file */
+.file-recipe-div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.file-recipe-text {
+  margin-left: 6px;
+  font-size: 12px;
+}
+.file-recipe {
+  background-color: rgb(229, 67, 39);
+  color: white;
+  padding: 4px 8px;
+  cursor: pointer;
+  border-radius: 5px;
+  width: 200px;
+}
