@@ -35,7 +35,11 @@ export const Home = () => {
           return (
             <div key={recipe.recipe_id} className="recipe-item-div">
               <div className="recipe-img-div">
-                <img className="recipe-img" src={recipe.imgUrl} alt="" />
+                <img
+                  className="recipe-img"
+                  src={`../upload/${recipe.imgUrl}`}
+                  alt=""
+                />
               </div>
               <div className="recipe-name-div">
                 <h4>{recipe.recipe_name}</h4>
