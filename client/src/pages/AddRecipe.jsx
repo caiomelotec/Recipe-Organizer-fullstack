@@ -15,6 +15,8 @@ export const AddRecipe = () => {
   const state = location.state;
   const isEdit = location.search.includes("edit");
   const navigate = useNavigate();
+  // file state
+  const [file, setFile] = useState(null);
   // REACT QUILL
   const [value, setValue] = useState(isEdit ? state?.recipe_preparation : "");
   // state for ingredients
@@ -56,11 +58,34 @@ export const AddRecipe = () => {
     }
   };
 
+  // upload Recipe IMG
+  const upload = async () => {
+    if (file) {
+      try {
+        const formData = new FormData();
+        formData.append("file", file);
+        const res = await axios.post(
+          "http://localhost:4000/uploadrecipeimg",
+          formData
+        );
+        console.log(res.data);
+        return res.data;
+      } catch (err) {
+        console.log(err);
+        return ""; // Return an empty string if there was an error during image upload
+      }
+    } else {
+      // Return the previous image URL (imgUrl) if no new image is selected
+      return recipe.imgUrl;
+    }
+  };
+
   // add new Recipe
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const imgUrl = await upload();
     // Update the recipe preparation data from the ReactQuill editor before sending it to the server
-    const updatedRecipe = { ...recipe, recipe_preparation: value };
+    const updatedRecipe = { ...recipe, imgUrl, recipe_preparation: value };
     const requestData = { recipe: updatedRecipe, inputList };
 
     try {
@@ -118,6 +143,8 @@ export const AddRecipe = () => {
               <AddRecipeFormFirstSection
                 recipe={recipe}
                 handleInputChange={handleInputChange}
+                setFile={setFile}
+                file={file}
               />
               <DynamicInputs
                 setInputList={setInputList}
