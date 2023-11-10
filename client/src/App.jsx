@@ -10,41 +10,51 @@ import { Register } from "./pages/Register";
 import { RouterAuth } from "./router/RouterAuth.jsx";
 import { ShoppingList } from "./pages/ShoppingList.jsx";
 import { Footer } from "./componentes/Footer.jsx";
+import { useLocation } from "react-router-dom";
 function App() {
+  let location = useLocation();
+  console.log(location.pathname);
   return (
     <div className="App">
       <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/recipes/:id" element={<RecipeDetails />} />
-        <Route
-          path="/addrecipe"
-          element={
-            <RouterAuth>
-              <AddRecipe />{" "}
-            </RouterAuth>
-          }
-        />
-        <Route
-          path="/profile/:userId"
-          element={
-            <RouterAuth>
-              <Profile />
-            </RouterAuth>
-          }
-        />
-        <Route
-          path="/shoppingList/:userId"
-          element={
-            <RouterAuth>
-              <ShoppingList />
-            </RouterAuth>
-          }
-        />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-      </Routes>
-      <Footer />
+      <div className="content">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/recipes/:id" element={<RecipeDetails />} />
+          <Route
+            path="/addrecipe"
+            element={
+              <RouterAuth>
+                <AddRecipe />{" "}
+              </RouterAuth>
+            }
+          />
+          <Route
+            path="/profile/:userId"
+            element={
+              <RouterAuth>
+                <Profile />
+              </RouterAuth>
+            }
+          />
+          <Route
+            path="/shoppingList/:userId"
+            element={
+              <RouterAuth>
+                <ShoppingList />
+              </RouterAuth>
+            }
+          />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Routes>
+      </div>
+
+      {location.pathname === "/" ||
+      location.pathname === "/register" ||
+      location.pathname === "/login" ? (
+        <Footer />
+      ) : null}
     </div>
   );
 }
