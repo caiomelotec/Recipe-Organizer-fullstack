@@ -6,3 +6,8 @@
   box-sizing: border-box;
   font-family: "Roboto", sans-serif;
 }
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
