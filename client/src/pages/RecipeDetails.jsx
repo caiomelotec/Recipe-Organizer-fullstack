@@ -93,14 +93,15 @@ export const RecipeDetails = () => {
     return <div>Loading...</div>; // render the loading component if project is not found
   }
 
-  // console.log(recipe.uid === currentUser.id);
-  // console.log(ingredientsNames);
-  // console.log(recipe.recipe_name);
   return (
     <div className="detail-container-wrapper" style={{ marginBottom: "2rem" }}>
       <section className="detail-container">
         <h1 className="title-detail-page">{recipe.recipe_name}</h1>
-        <img src={recipe.imgUrl} alt="" className="detail-page-img" />
+        <img
+          src={`../upload/${recipe.imgUrl}`}
+          alt=""
+          className="detail-page-img"
+        />
         <div className="share-div">
           <button
             className="btn-detail-page"
@@ -145,11 +146,11 @@ export const RecipeDetails = () => {
             ) : null}
           </div>
         </div>
-        <div className="preparation-info-div">
+        {/* <div className="preparation-info-div">
           <p>60 Min.</p>
           <p>normal</p>
           <p>888 kcal</p>
-        </div>
+        </div> */}
         <div className="ingredients-wrapper-div">
           {ingredients.map((ingredient, index) => (
             <div
