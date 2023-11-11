@@ -13,7 +13,7 @@ import { Footer } from "./componentes/Footer.jsx";
 import { useLocation } from "react-router-dom";
 function App() {
   let location = useLocation();
-  console.log(location.pathname);
+
   return (
     <div className="App">
       <Header />
