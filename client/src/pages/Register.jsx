@@ -9,6 +9,9 @@ export const Register = () => {
   const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const [password, setPassword] = useState({
+    confirmPassword: "",
+  });
   const [inputs, setInputs] = useState({
     firstname: "",
     lastname: "",
@@ -20,37 +23,21 @@ export const Register = () => {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const notifyError = () =>
-    toast.error(error, {
-      position: "bottom-center",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
-    });
+  const notify = () => toast(success);
 
-  const notifySuccess = toast.success(success, {
-    position: "bottom-center",
-    autoClose: 3000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "dark",
-  });
+  const notifyError = () => toast(error);
+
+  console.log(password);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       if (
-        inputs.firstname.length &&
-        inputs.lastname.length &&
-        inputs.email.length &&
-        inputs.password.length > 3
+        inputs.firstname.length != 0 &&
+        inputs.lastname.length != 0 &&
+        inputs.email.length != 0 &&
+        inputs.password.length >= 8 &&
+        inputs.password === password.confirmPassword
       ) {
         const res = await axios.post(
           "http://localhost:4000/api/register",
@@ -59,19 +46,25 @@ export const Register = () => {
             withCredentials: true,
           }
         );
-        setTimeout(() => {
-          navigate("/login");
-        }, 3000);
+        navigate("/login");
         setSuccess(res.data);
-      } else {
+      } else if (inputs.password.length < 8) {
+        setError("Das Passwort muss mindestens 8 Zeichen lang sein.");
+        notifyError();
+      } else if (
+        inputs.firstname.length === 0 ||
+        inputs.lastname.length === 0 ||
+        inputs.email.length === 0
+      ) {
         setError("Bitte füllen Sie die Felder vollständig aus.");
         notifyError();
+      } else if (inputs.password !== password.confirmPassword) {
+        setError("Die Passwörter stimmen nicht überein");
+        notifyError();
       }
-      notifySuccess();
+      notify();
     } catch (err) {
       console.log(err);
-      setError(err.response.data);
-      notifyError();
     }
   };
 
@@ -87,6 +80,7 @@ export const Register = () => {
       handleSubmit={handleSubmit}
       error={error}
       success={success}
+      setPassword={setPassword}
     />
   );
 };
