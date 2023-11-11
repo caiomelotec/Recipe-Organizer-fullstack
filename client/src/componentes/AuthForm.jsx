@@ -15,6 +15,7 @@ export const AuthForm = ({
   linkTo,
   handleInputChange,
   handleSubmit,
+  setPassword,
 }) => {
   return (
     <div className="login-wrapper">
@@ -68,6 +69,21 @@ export const AuthForm = ({
               autoComplete="off"
             />
           </div>
+          {title === "Neues Konto erstellen" && (
+            <div className="password-div">
+              <RiLockPasswordLine className="password-icon-login" />
+              <input
+                type="password"
+                placeholder="Bestätigen das Passwort"
+                name="confirmPassword"
+                id="confirmPassword"
+                onChange={(e) =>
+                  setPassword({ confirmPassword: e.target.value })
+                }
+                autoComplete="off"
+              />
+            </div>
+          )}
           <button className="login-page-btn" type="submit">
             {buttonText}
           </button>
