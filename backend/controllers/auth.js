@@ -1,5 +1,5 @@
 const db = require("../util/database");
-const bcrypt = require("bcrypt");
+var bcrypt = require("bcryptjs");
 var jwt = require("jsonwebtoken");
 
 exports.register = (req, res) => {
@@ -52,16 +52,20 @@ exports.login = (req, res) => {
     }
 
     // Generate a JSON Web Token (JWT) for the authenticated user
-    const token = jwt.sign({ id: data[0].id }, process.env.JWTKEY);
+    const token = jwt.sign({ id: data[0].id }, process.env.JWTKEY, {
+      expiresIn: '1d',
+    });
 
     // Remove the 'password' field from the user data (other fields can be included)
     const { password, ...other } = data[0];
 
     // Set a cookie with the JWT and return a 200 OK response with the user data
-    res
-      .cookie("token", token, {
-        httpOnly: true,
-      })
+    res.cookie("token", token, {
+      // httpOnly: true,
+      secure: true,
+      sameSite: 'None',
+      // other options
+    })
       .status(200)
       .json(other);
   });
