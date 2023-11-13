@@ -8,6 +8,7 @@ import { Profile } from "./pages/Profile";
 import { Login } from "./pages/Login";
 import { Register } from "./pages/Register";
 import { RouterAuth } from "./router/RouterAuth.jsx";
+import { HandleLoginAuth } from "./router/HandleLoginAuth.jsx";
 import { ShoppingList } from "./pages/ShoppingList.jsx";
 import { Footer } from "./componentes/Footer.jsx";
 import { useLocation } from "react-router-dom";
@@ -45,7 +46,15 @@ function App() {
               </RouterAuth>
             }
           />
-          <Route path="/login" element={<Login />} />
+
+          <Route
+            path="/login"
+            element={
+              <HandleLoginAuth>
+                <Login />
+              </HandleLoginAuth>
+            }
+          />
           <Route path="/register" element={<Register />} />
         </Routes>
       </div>
