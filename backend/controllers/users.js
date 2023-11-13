@@ -22,7 +22,7 @@ exports.getUserById = (req, res) => {
   });
 };
 
-// router protection
+// useer router protection
 exports.checkUserIdMiddleware = (req, res, next) => {
   const token = req.cookies.token;
 
