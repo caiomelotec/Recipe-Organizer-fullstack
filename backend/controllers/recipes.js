@@ -1,5 +1,6 @@
 const db = require("../util/database");
 var jwt = require("jsonwebtoken");
+const cloudinary = require("../util/cloudinary");
 
 exports.getRecipes = (req, res) => {
   //retriving the recipes data from the database
@@ -44,7 +45,7 @@ exports.getSingleRecipe = (req, res) => {
 exports.getIgredientsByRecipeId = (req, res) => {
   //retriving the ingredients data from the database
   const recipeId = req.params.id;
-  const query = "SELECT * From recipes.ingredients WHERE recipe_id = ?";
+  const query = "SELECT * From ingredients WHERE recipe_id = ?";
 
   db.query(query, [recipeId], (err, ingredients) => {
     if (err) {
@@ -88,7 +89,7 @@ exports.AddRecipe = (req, res) => {
 
       //second, insert the ingredients data
       const ingredientQuery =
-        "INSERT INTO recipes.ingredients (quantity, unit, ingredient_name, recipe_id) VALUES ?";
+        "INSERT INTO ingredients (quantity, unit, ingredient_name, recipe_id) VALUES ?";
       const ingredientValues = ingredients.map((ingredient) => [
         ingredient.quantity,
         ingredient.unit,
@@ -149,7 +150,7 @@ exports.editRecipe = (req, res) => {
 
       // Update existing ingredients
       const ingredientsQuery =
-        "UPDATE recipes.ingredients SET `quantity` = ?, `unit` = ?, `ingredient_name` = ? WHERE `ingredient_id` = ? AND `recipe_id` = ?";
+        "UPDATE ingredients SET `quantity` = ?, `unit` = ?, `ingredient_name` = ? WHERE `ingredient_id` = ? AND `recipe_id` = ?";
 
       existingIngredients.forEach((ingredient) => {
         db.query(
@@ -173,7 +174,7 @@ exports.editRecipe = (req, res) => {
       // deleting ingredients that is not in the InputList
 
       const query =
-        "SELECT ingredient_id FROM recipes.ingredients WHERE recipe_id = ?";
+        "SELECT ingredient_id FROM ingredients WHERE recipe_id = ?";
 
       db.query(query, [recipeId], (err, existingIngredients) => {
         if (err) {
@@ -196,7 +197,7 @@ exports.editRecipe = (req, res) => {
 
         if (ingredientsToDelete.length > 0) {
           const deleteQuery =
-            "DELETE FROM recipes.ingredients WHERE recipe_id = ? AND ingredient_id IN (?)";
+            "DELETE FROM ingredients WHERE recipe_id = ? AND ingredient_id IN (?)";
 
           db.query(
             deleteQuery,
@@ -219,7 +220,7 @@ exports.editRecipe = (req, res) => {
       // Insert new ingredients
       if (newIngredients.length > 0) {
         const insertQuery =
-          "INSERT INTO recipes.ingredients (quantity, unit, ingredient_name, recipe_id) VALUES ?";
+          "INSERT INTO ingredients (quantity, unit, ingredient_name, recipe_id) VALUES ?";
 
         const newIngredientValues = newIngredients.map((ingredient) => [
           ingredient.quantity,
@@ -271,6 +272,17 @@ exports.deleteRecipeById = (req, res) => {
 };
 
 exports.uploadRecipeImg = (req, res) => {
-  const file = req.file;
-  res.status(200).json(file.filename);
+  const file = req.file.path;
+
+   // Specify the folder in Cloudinary where you want to store the image
+   const uploadOptions = {
+    folder: 'recipesIMG',
+  };
+
+  cloudinary.uploader.upload(file, uploadOptions, (err, result) => {
+    if(err) return res.status(500).json({message: "Error uploading img"})
+
+        // Return the Cloudinary URL of the uploaded image
+    res.status(200).json(result.secure_url);
+  });
 };
