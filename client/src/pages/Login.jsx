@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { AuthForm } from "../componentes/AuthForm";
-import axios from "axios";
 import { useNavigate } from "react-router-dom"; // Import Navigate if not already imported
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

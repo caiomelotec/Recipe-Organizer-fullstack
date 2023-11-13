@@ -18,7 +18,7 @@ import {
 import { AiOutlineClose } from "react-icons/ai";
 
 export const ShareLinksModal = ({ recipeId, setShareModal }) => {
-  let shareUrl = `http://localhost:5173/recipes/${recipeId}`;
+  let shareUrl = `https://koch-8dbe7c0d957c.herokuapp.com/recipes/${recipeId}`;
 
   return (
     <div className="share-modal-container">

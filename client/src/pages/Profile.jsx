@@ -18,7 +18,7 @@ export const Profile = () => {
     const imgUrl = await upload();
     try {
       await axios.put(
-        "http://localhost:4000/updateuserprofileimg",
+        "https://koch-8dbe7c0d957c.herokuapp.com/updateuserprofileimg",
         {
           img: file ? imgUrl : "",
         },
@@ -36,7 +36,7 @@ export const Profile = () => {
       const formData = new FormData();
       formData.append("file", file);
       const res = await axios.post(
-        "http://localhost:4000/uploaduserprofileimg",
+        "https://koch-8dbe7c0d957c.herokuapp.com/uploaduserprofileimg",
         formData
       );
       console.log(res.data);
@@ -52,13 +52,14 @@ export const Profile = () => {
     const fetchData = async () => {
       try {
         const userResponse = await axios.get(
-          `http://localhost:4000/api/usersbyid/${userId}`,
+          `https://koch-8dbe7c0d957c.herokuapp.com/api/usersbyid/${userId}`,
           { withCredentials: true }
         );
         setUser(userResponse.data);
 
         const recipesResponse = await axios.get(
-          `http://localhost:4000/recipesbyuserid/${userId}`
+          `https://koch-8dbe7c0d957c.herokuapp.com/recipesbyuserid/${userId}`,
+          { withCredentials: true }
         );
         setRecipes(recipesResponse.data);
       } catch (err) {

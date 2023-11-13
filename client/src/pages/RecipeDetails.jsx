@@ -24,7 +24,7 @@ export const RecipeDetails = () => {
     const fetchingRecipeAndUserDataByRecipeId = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:4000/recipes/${recipeId}`
+          `https://koch-8dbe7c0d957c.herokuapp.com/recipes/${recipeId}`
         );
         setRecipe(response.data);
       } catch (err) {
@@ -38,7 +38,7 @@ export const RecipeDetails = () => {
     const fetchingIngredientsData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:4000/recipes/${recipeId}/ingredients`
+          `https://koch-8dbe7c0d957c.herokuapp.com/recipes/${recipeId}/ingredients`
         );
         setIngredients(response.data);
       } catch (err) {
@@ -51,7 +51,7 @@ export const RecipeDetails = () => {
   const deleteRecipeById = async () => {
     try {
       const res = await axios.delete(
-        `http://localhost:4000/recipes/${recipeId}`,
+        `https://koch-8dbe7c0d957c.herokuapp.com/recipes/${recipeId}`,
         {
           withCredentials: true,
         }
@@ -79,7 +79,7 @@ export const RecipeDetails = () => {
     console.log(requestData);
     try {
       axios.post(
-        "http://localhost:4000/shoppingList",
+        "https://koch-8dbe7c0d957c.herokuapp.com/shoppingList",
         { requestData },
         { withCredentials: true }
       );
@@ -98,7 +98,7 @@ export const RecipeDetails = () => {
       <section className="detail-container">
         <h1 className="title-detail-page">{recipe.recipe_name}</h1>
         <img
-          src={`../upload/${recipe.imgUrl}`}
+          src={recipe.imgUrl}
           alt=""
           className="detail-page-img"
         />

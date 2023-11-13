@@ -9,7 +9,7 @@ export const DeleteAccountModal = ({ deletemodal, setDeleteModal }) => {
 
   const deleteUserById = async () => {
     try {
-      await axios.delete("http://localhost:4000/deleteuser", {
+      await axios.delete("https://koch-8dbe7c0d957c.herokuapp.com/deleteuser", {
         withCredentials: true,
       });
       await logout();

@@ -65,8 +65,8 @@ export const AddRecipe = () => {
         const formData = new FormData();
         formData.append("file", file);
         const res = await axios.post(
-          "http://localhost:4000/uploadrecipeimg",
-          formData
+          "https://koch-8dbe7c0d957c.herokuapp.com/uploadrecipeimg",
+          formData, {withCredentials: true}
         );
         console.log(res.data);
         return res.data;
@@ -87,17 +87,21 @@ export const AddRecipe = () => {
     // Update the recipe preparation data from the ReactQuill editor before sending it to the server
     const updatedRecipe = { ...recipe, imgUrl, recipe_preparation: value };
     const requestData = { recipe: updatedRecipe, inputList };
-
+    console.log(requestData);
     try {
       state
         ? await axios.put(
-            `http://localhost:4000/recipes/${state.recipe.recipe_id}`,
+            `https://koch-8dbe7c0d957c.herokuapp.com/recipes/${state.recipe.recipe_id}`,
             { requestData },
             { withCredentials: true }
           )
-        : await axios.post("http://localhost:4000/addrecipe", requestData, {
-            withCredentials: true,
-          });
+        : await axios.post(
+            "https://koch-8dbe7c0d957c.herokuapp.com/addrecipe",
+            requestData,
+            {
+              withCredentials: true,
+            }
+          );
       navigate("/");
     } catch (error) {
       console.log(error);

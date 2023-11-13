@@ -12,7 +12,7 @@ export const ShoppingListAccordion = () => {
     const fetchShoppingListByUserId = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:4000/getshoppinglistinfo",
+          "https://koch-8dbe7c0d957c.herokuapp.com/getshoppinglistinfo",
           { withCredentials: true }
         );
         setShoppingList(res.data);

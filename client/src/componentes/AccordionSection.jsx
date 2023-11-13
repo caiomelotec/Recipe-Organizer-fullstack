@@ -14,9 +14,12 @@ export const AccordionSection = ({
 
   const deleteShoppingListItemById = async (id) => {
     try {
-      await axios.delete(`http://localhost:4000/deleteshoppinglistbyid`, {
-        data: { id: id },
-      });
+      await axios.delete(
+        `https://koch-8dbe7c0d957c.herokuapp.com/deleteshoppinglistbyid`,
+        {
+          data: { id: id },
+        }
+      );
       window.location.reload();
     } catch (err) {
       console.log(err);

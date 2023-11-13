@@ -1,10 +1,6 @@
 import React from "react";
 import unitsArray from "../data";
 
-function generateUniqueId() {
-  return Math.random().toString(36);
-}
-
 export const DynamicInputs = ({ inputList, setInputList }) => {
   const handleDynamicInputsChange = (e, index) => {
     let data = [...inputList];

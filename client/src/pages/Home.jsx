@@ -12,7 +12,9 @@ export const Home = () => {
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/recipes");
+        const response = await axios.get(
+          "https://koch-8dbe7c0d957c.herokuapp.com/recipes"
+        );
         setRecipes(response.data);
       } catch (err) {
         console.error(err, "Error fetching the recipes");
@@ -37,7 +39,7 @@ export const Home = () => {
               <div className="recipe-img-div">
                 <img
                   className="recipe-img"
-                  src={`../upload/${recipe.imgUrl}`}
+                  src={recipe.imgUrl}
                   alt=""
                 />
               </div>
