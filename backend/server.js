@@ -9,10 +9,24 @@ const shoppingListRouters = require("./routes/shoppingList");
 const cookieParser = require("cookie-parser");
 
 app.use(express.json()); // to support JSON-encoded bodies
+// Add this before your routes
+
 app.use(
   cors({
     origin: "http://localhost:5173",
     methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: [
+      "Access-Control-Allow-Headers",
+      "Origin",
+      "X-Requested-With",
+      "Content-Type",
+      "Accept",
+      "Authorization",
+      "token",
+      "Access-Control-Request-Method",
+      "Access-Control-Request-Headers",
+      "Access-Control-Allow-Credentials",
+    ],
     credentials: true,
   })
 );
@@ -25,6 +39,8 @@ app.use(authRouters);
 app.use(userRouters);
 app.use(shoppingListRouters);
 
-app.listen(process.env.PORT, () => {
-  console.log(`Server running on port ${process.env.PORT}`);
+const PORT = process.env.PORT || 4000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
