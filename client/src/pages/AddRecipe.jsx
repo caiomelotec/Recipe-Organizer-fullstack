@@ -9,6 +9,8 @@ import { AddRecipeFormErrors } from "../componentes/AddRecipeFormErrors";
 import { AddRecipeFormFirstSection } from "../componentes/AddRecipeFormFirstSection";
 import { AddRecipeFormSecondSection } from "../componentes/AddRecipeFormSecondSection";
 import { DynamicInputs } from "../componentes/DynamicInputs";
+// spinner
+import FadeLoader from "react-spinners/FadeLoader";
 
 export const AddRecipe = () => {
   const location = useLocation();
@@ -43,6 +45,16 @@ export const AddRecipe = () => {
     date: moment(Date.now()).format("DD.MM.YYYY HH:mm"),
   });
 
+  // spinner state
+  let [loading, setLoading] = useState(false);
+  // let [color, setColor] = useState("#ffa500");
+
+  const override = {
+    display: "block",
+    margin: "0 auto",
+    borderColor: "red",
+  };
+
   const handleInputChange = (e) => {
     const { name, value, required } = e.target;
     setRecipe((prev) => ({ ...prev, [name]: value }));
@@ -66,7 +78,8 @@ export const AddRecipe = () => {
         formData.append("file", file);
         const res = await axios.post(
           "https://koch-8dbe7c0d957c.herokuapp.com/uploadrecipeimg",
-          formData, {withCredentials: true}
+          formData,
+          { withCredentials: true }
         );
         console.log(res.data);
         return res.data;
@@ -83,6 +96,7 @@ export const AddRecipe = () => {
   // add new Recipe
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const imgUrl = await upload();
     // Update the recipe preparation data from the ReactQuill editor before sending it to the server
     const updatedRecipe = { ...recipe, imgUrl, recipe_preparation: value };
@@ -103,6 +117,7 @@ export const AddRecipe = () => {
             }
           );
       navigate("/");
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -128,66 +143,85 @@ export const AddRecipe = () => {
 
   return (
     <div className="forms-wrapper-container">
-      <div className="form-container">
-        <RecipeStepFormControll formStep={formStep} setFormStep={setFormStep} />
-        <div className="background-div"></div>
-        <AddRecipeFormErrors formErrors={formErrors} />
-        {/* form */}
-        <form onSubmit={handleSubmit}>
-          {formStep >= 0 && (
-            // first form step
+      {loading ? (
+        <div className="sweet-loading">
+          <h3 style={{ marginBottom: "5px" }}>Wird geladen...</h3>
+          <FadeLoader
+            color="#ffa500"
+            loading={loading}
+            cssOverride={override}
+            size={150}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
+        </div>
+      ) : (
+        <div className="form-container">
+          <RecipeStepFormControll
+            formStep={formStep}
+            setFormStep={setFormStep}
+          />
+          <div className="background-div"></div>
+          <AddRecipeFormErrors formErrors={formErrors} />
+          {/* form */}
+          <form onSubmit={handleSubmit}>
+            {formStep >= 0 && (
+              // first form step
+              <section
+                className="section-form-one"
+                style={
+                  formStep === 0
+                    ? { display: "block" }
+                    : { display: "none", position: "absolute" }
+                }
+              >
+                <AddRecipeFormFirstSection
+                  recipe={recipe}
+                  handleInputChange={handleInputChange}
+                  setFile={setFile}
+                  file={file}
+                />
+                <DynamicInputs
+                  setInputList={setInputList}
+                  inputList={inputList}
+                />
+              </section>
+            )}
+
             <section
-              className="section-form-one"
+              className="section-form-two"
               style={
-                formStep === 0
-                  ? { display: "block" }
-                  : { display: "none", position: "absolute" }
+                formStep === 1 ? { display: "block" } : { display: "none" }
               }
             >
-              <AddRecipeFormFirstSection
-                recipe={recipe}
-                handleInputChange={handleInputChange}
-                setFile={setFile}
-                file={file}
-              />
-              <DynamicInputs
-                setInputList={setInputList}
-                inputList={inputList}
+              <AddRecipeFormSecondSection
+                value={value}
+                setValue={setValue}
+                setFormStep={setFormStep}
+                handleSubmit={handleSubmit}
               />
             </section>
+          </form>
+          {formStep === 0 && (
+            <div className="btns-div">
+              <button className="add-inputs-btn" onClick={handleAddField}>
+                Weitere Zutaten hinzufügen
+              </button>
+              <button onClick={() => setFormStep(1)} className="step-btn">
+                Weiter
+              </button>
+            </div>
           )}
-
-          <section
-            className="section-form-two"
-            style={formStep === 1 ? { display: "block" } : { display: "none" }}
-          >
-            <AddRecipeFormSecondSection
-              value={value}
-              setValue={setValue}
-              setFormStep={setFormStep}
-              handleSubmit={handleSubmit}
-            />
-          </section>
-        </form>
-        {formStep === 0 && (
-          <div className="btns-div">
-            <button className="add-inputs-btn" onClick={handleAddField}>
-              Weitere Zutaten hinzufügen
+          {formStep === 1 && (
+            <button
+              onClick={() => setFormStep(0)}
+              className="step-btn step-back-btn"
+            >
+              Zurück
             </button>
-            <button onClick={() => setFormStep(1)} className="step-btn">
-              Weiter
-            </button>
-          </div>
-        )}
-        {formStep === 1 && (
-          <button
-            onClick={() => setFormStep(0)}
-            className="step-btn step-back-btn"
-          >
-            Zurück
-          </button>
-        )}
-      </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };
