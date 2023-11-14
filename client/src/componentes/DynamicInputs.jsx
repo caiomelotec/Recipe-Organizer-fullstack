@@ -14,11 +14,13 @@ export const DynamicInputs = ({ inputList, setInputList }) => {
     setInputList(data);
   };
 
+  console.log(inputList);
+
   return (
     <>
       {inputList.map((ingredient, index) => (
         <div
-          key={ingredient.ingredient_id ? ingredient.ingredient_id : index}
+          key={ingredient?.ingredient_id || index}
           className="dynamic-inputs-div"
         >
           <input
