@@ -1,5 +1,6 @@
 const db = require("../util/database");
 const jwt = require("jsonwebtoken");
+const cloudinary = require("../util/cloudinary");
 
 exports.getUserById = (req, res) => {
   const userId = req.params.userId;
@@ -53,8 +54,17 @@ exports.checkUserIdMiddleware = (req, res, next) => {
 };
 
 exports.uploadUserImg = (req, res) => {
-  const file = req.file;
-  res.status(200).json(file.filename);
+  const file = req.file.path;
+
+  const uploadOptions = {
+    folder: "usersIMG",
+  };
+
+  cloudinary.uploader.upload(file, uploadOptions, (err, result) => {
+    if (err) return res.status(500).json({ message: "Error uploading img" });
+
+    res.status(200).json(result.secure_url);
+  });
 };
 
 exports.upDateUserImg = (req, res) => {
