@@ -13,7 +13,7 @@ app.use(express.json()); // to support JSON-encoded bodies
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://koch-by-caio-melo.netlify.app",
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: [
       "Access-Control-Allow-Headers",
