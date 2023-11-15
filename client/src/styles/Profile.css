@@ -136,3 +136,12 @@
 .nein-btn:hover {
   background-color: rgb(84, 1, 84);
 }
+
+@media only screen and (max-width: 600px) {
+  .profile-first-section {
+    padding: 3rem 0.8rem;
+  }
+  .user-profile-img {
+    border-radius: 8px;
+  }
+}
