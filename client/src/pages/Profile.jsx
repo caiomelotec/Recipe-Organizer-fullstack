@@ -87,11 +87,7 @@ export const Profile = () => {
     <div className="profile-page-wrapper">
       <div className="profile-page-container">
         <section className="profile-first-section">
-          <img
-            src={`../upload/${userdata.img}`}
-            alt=""
-            className="user-profile-img"
-          />
+          <img src={userdata.img} alt="" className="user-profile-img" />
           <h1>{userdata.firstname + " " + userdata.lastname}</h1>
           <input
             style={{ display: "none" }}

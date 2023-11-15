@@ -97,11 +97,7 @@ export const RecipeDetails = () => {
     <div className="detail-container-wrapper" style={{ marginBottom: "2rem" }}>
       <section className="detail-container">
         <h1 className="title-detail-page">{recipe.recipe_name}</h1>
-        <img
-          src={recipe.imgUrl}
-          alt=""
-          className="detail-page-img"
-        />
+        <img src={recipe.imgUrl} alt="" className="detail-page-img" />
         <div className="share-div">
           <button
             className="btn-detail-page"
@@ -190,7 +186,7 @@ export const RecipeDetails = () => {
         <section className="detail-container-section-three">
           <h1 className="second-section-detail-title">Rezept von</h1>
           <div className="user-info-container">
-            <img src={`../upload/${recipe.user_img}`} alt="" />
+            <img src={recipe.user_img} alt="" />
             <p className="username-info">
               {recipe.firstname + " " + recipe.lastname}
             </p>
