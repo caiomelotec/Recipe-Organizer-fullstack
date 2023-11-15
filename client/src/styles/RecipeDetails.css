@@ -3,6 +3,8 @@
 .detail-container-wrapper {
   display: flex;
   justify-content: center;
+  margin: 2rem 0;
+  height: 100%;
 }
 .detail-container {
   width: 500px;
@@ -74,8 +76,6 @@
 .title-detail-page {
   font-family: "Inria Serif";
   margin: 0.3rem 0;
-  /* font-family: 'Roboto', sans-serif; */
-  /* font-family: sans-serif; */
 }
 .preparation-info-div {
   display: flex;
@@ -102,6 +102,7 @@
   border-top: solid 1px lightgray;
   border-bottom: 1px solid lightgray;
   padding: 8px 5px;
+  padding-bottom: 2rem;
 }
 .user-info-container .username-info {
   font-weight: bold;
@@ -169,4 +170,14 @@
 }
 .edit-recipe-btn:hover {
   background-color: rgb(41, 1, 41);
+}
+
+@media only screen and (max-width: 600px) {
+  .detail-container {
+    width: 90%;
+    padding: 0;
+  }
+  .detail-container-wrapper {
+    width: 100%;
+  }
 }
