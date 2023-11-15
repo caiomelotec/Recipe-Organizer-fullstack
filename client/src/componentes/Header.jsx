@@ -30,13 +30,15 @@ export const Header = () => {
         </Link>
       </div>
       <div className="search-bar">
-        <input
-          type="text"
-          className="search-bar"
-          placeholder="z.B Pfannkuchen, Lasagne, Low Carb"
-          value={searchString}
-          onChange={(e) => setSearchString(e.target.value)}
-        />
+        {location.pathname === "/" ? (
+          <input
+            type="text"
+            className="search-bar"
+            placeholder="z.B Pfannkuchen, Lasagne, Low Carb"
+            value={searchString}
+            onChange={(e) => setSearchString(e.target.value)}
+          />
+        ) : null}
       </div>
       <div className="avatar">
         {currentUser === null ? (
